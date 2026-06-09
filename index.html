@@ -121,49 +121,56 @@
   .hero {
     position: relative;
     width: 100%;
-    height: 820px;
+    height: clamp(680px, 58vw, 860px);
     overflow: hidden;
     display: flex;
     align-items: flex-start;
     flex-direction: row;
   }
 
-  /* Full-bleed background image */
+  /* Full-bleed background image — anchored bottom-right, always fills hero */
   .hero-bg {
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    height: 100%;
-    width: 100%;
+    inset: 0;
     z-index: 0;
+    pointer-events: none;
   }
 
+  /*
+   * The figure image must:
+   *   - sit at the bottom of the hero (anchored: bottom:0)
+   *   - start from roughly 35% from the left (right side of the copy column)
+   *   - scale proportionally with the viewport width
+   *   - never crop the figure's head at the top
+   *
+   * Strategy: position absolute, right-aligned inside the hero,
+   * width driven by a clamp so it fills the right ~65% of the viewport.
+   * height:100% + object-fit:contain keeps aspect ratio intact.
+   */
   .hero-bg img {
     position: absolute;
-    left: 430px;
-    right: auto;
+    right: 0;
     bottom: 0;
-    width: auto;
+    /* Width spans from ~35% of viewport to the right edge */
+    width: clamp(560px, 68vw, 1100px);
     height: 100%;
-    max-height: 100%;
     object-fit: contain;
     object-position: right bottom;
     display: block;
   }
 
-  /* Gradient overlay so left-side copy stays readable */
+  /* Gradient overlay — left cream fade so copy stays readable */
   .hero-overlay {
     position: absolute;
     inset: 0;
     z-index: 1;
     background:
       linear-gradient(105deg,
-        rgba(255,247,235,0.97) 0%,
-        rgba(255,247,235,0.88) 30%,
-        rgba(255,247,235,0.50) 55%,
-        rgba(255,247,235,0.10) 75%,
+        rgba(255,248,238,1.00)  0%,
+        rgba(255,248,238,0.96) 22%,
+        rgba(255,248,238,0.82) 38%,
+        rgba(255,248,238,0.40) 58%,
+        rgba(255,248,238,0.08) 76%,
         transparent 100%
       );
   }
@@ -504,6 +511,16 @@
   }
 
   /* ─── RESPONSIVE ─── */
+
+  /* Tablet landscape (900px–1200px): tighten left padding, image stays right-anchored */
+  @media (max-width: 1200px) and (min-width: 901px) {
+    .hero-left { padding-left: 52px; }
+    .hero-bg img {
+      width: clamp(520px, 72vw, 900px);
+    }
+  }
+
+  /* Tablet portrait + mobile (≤900px) */
   @media (max-width: 900px) {
     nav { height: 72px; padding: 0 24px; }
     .nav-logo-mark, .nav-logo-mark svg { width: 36px; height: 36px; }
@@ -511,23 +528,74 @@
     .nav-logo-text span { font-size: 14px; letter-spacing: 0.28em; }
     .nav-links { display: none; }
     .nav-cta { padding: 12px 16px; font-size: 11px; gap: 10px; }
-    .hero { min-height: 680px; height: calc(100svh - 72px); }
-    .hero-bg img { height: 100%; object-position: 64% bottom; transform: translateY(220px); }
-    .hero-left { padding: 104px 24px 0; max-width: 100%; }
-    .hero-overlay {
-      background: linear-gradient(180deg,
-        rgba(255,247,235,0.95) 0%,
-        rgba(255,247,235,0.80) 50%,
-        rgba(255,247,235,0.30) 100%
-      );
+
+    .hero {
+      height: clamp(580px, 100svh, 780px);
+      align-items: flex-start;
     }
-    .hero-headline { font-size: clamp(46px, 10vw, 68px); }
-    .hero-subtext { max-width: 360px; font-size: 16px; line-height: 1.55; }
+    /* On smaller screens the image fills most of the width,
+       anchored bottom-right — figure stays right of copy */
+    .hero-bg img {
+      width: clamp(340px, 90vw, 600px);
+      height: 82%;
+      right: 0;
+      bottom: 0;
+      object-position: right bottom;
+    }
+    .hero-left {
+      padding: 36px 24px 0;
+      max-width: 58%;
+    }
+    /* Stronger left-side overlay for readability on small screens */
+    .hero-overlay {
+      background:
+        linear-gradient(105deg,
+          rgba(255,248,238,1.00)  0%,
+          rgba(255,248,238,0.98) 28%,
+          rgba(255,248,238,0.88) 44%,
+          rgba(255,248,238,0.55) 62%,
+          rgba(255,248,238,0.12) 80%,
+          transparent 100%
+        ),
+        linear-gradient(180deg,
+          rgba(255,248,238,0.0) 60%,
+          rgba(255,248,238,0.7) 100%
+        );
+    }
+    .hero-headline { font-size: clamp(40px, 9vw, 64px); }
+    .hero-subtext { max-width: 320px; font-size: 15px; line-height: 1.55; }
     .value-strip { grid-template-columns: 1fr 1fr; margin: 0; border-radius: 0; padding: 0 24px; }
     .value-item { padding: 24px 12px; }
     .value-item:nth-child(2) { border-right: none; }
     .purpose-section { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
     .footer-bar { padding: 16px 24px; }
+  }
+
+  /* Small mobile (≤480px): stack content more tightly */
+  @media (max-width: 480px) {
+    .hero { height: clamp(620px, 100svh, 750px); }
+    .hero-bg img {
+      width: 100vw;
+      height: 65%;
+      object-position: 55% bottom;
+    }
+    .hero-left {
+      padding: 28px 20px 0;
+      max-width: 100%;
+    }
+    .hero-overlay {
+      background:
+        linear-gradient(180deg,
+          rgba(255,248,238,1.00)  0%,
+          rgba(255,248,238,0.98) 38%,
+          rgba(255,248,238,0.78) 56%,
+          rgba(255,248,238,0.20) 78%,
+          transparent 100%
+        );
+    }
+    .hero-headline { font-size: clamp(36px, 11vw, 52px); }
+    .hero-subtext { max-width: 100%; font-size: 14px; }
+    .btn-primary, .btn-ghost { font-size: 12px; padding: 14px 18px; }
   }
 </style>
 </head>
@@ -545,7 +613,7 @@
   </ul>
 
   <a class="nav-cta" href="#">
-    Work with JAK
+    Book a consultation
     <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="2" y1="7" x2="12" y2="7"/><polyline points="8,3 12,7 8,11"/>
     </svg>
@@ -561,7 +629,7 @@
   </div>
 
   <!-- LAYER 1: Cream-to-transparent gradient overlay (left readability) -->
-  <!-- <div class="hero-overlay"></div> -->
+  <div class="hero-overlay"></div>
 
   <!-- LAYER 2: SVG journey path across full hero -->
   <!-- <svg class="journey-path" viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
@@ -639,7 +707,7 @@
 
     <div class="hero-actions anim-4">
       <a class="btn-primary" href="#">
-        Work with JAK
+            Book a consultation
         <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="2" y1="7" x2="12" y2="7"/><polyline points="8,3 12,7 8,11"/>
         </svg>
@@ -771,4 +839,3 @@
 
 </body>
 </html>
-
