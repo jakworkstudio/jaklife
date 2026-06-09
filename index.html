@@ -121,7 +121,7 @@
   .hero {
     position: relative;
     width: 100%;
-    height: clamp(680px, 58vw, 860px);
+    height: clamp(700px, 86vh, 900px);
     overflow: hidden;
     display: flex;
     align-items: flex-start;
@@ -131,31 +131,27 @@
   /* Full-bleed background image — anchored bottom-right, always fills hero */
   .hero-bg {
     position: absolute;
-    inset: 0;
+    /* Start from ~32% left so it never covers copy */
+    left: 28%;
+    right: 0;
+    top: 0;
+    bottom: 0;
     z-index: 0;
     pointer-events: none;
   }
 
   /*
-   * The figure image must:
-   *   - sit at the bottom of the hero (anchored: bottom:0)
-   *   - start from roughly 35% from the left (right side of the copy column)
-   *   - scale proportionally with the viewport width
-   *   - never crop the figure's head at the top
-   *
-   * Strategy: position absolute, right-aligned inside the hero,
-   * width driven by a clamp so it fills the right ~65% of the viewport.
-   * height:100% + object-fit:contain keeps aspect ratio intact.
+   * image fills the entire .hero-bg box (top-to-bottom, right-to-left).
+   * object-fit:cover ensures NO empty space — the image crops rather than shrinks.
+   * object-position keeps the figure (center-right of the image) in frame.
    */
   .hero-bg img {
     position: absolute;
-    right: 0;
-    bottom: 0;
-    /* Width spans from ~35% of viewport to the right edge */
-    width: clamp(560px, 68vw, 1100px);
+    inset: 0;
+    width: 100%;
     height: 100%;
-    object-fit: contain;
-    object-position: right bottom;
+    object-fit: cover;
+    object-position: 30% center;
     display: block;
   }
 
@@ -167,10 +163,10 @@
     background:
       linear-gradient(105deg,
         rgba(255,248,238,1.00)  0%,
-        rgba(255,248,238,0.96) 22%,
-        rgba(255,248,238,0.82) 38%,
-        rgba(255,248,238,0.40) 58%,
-        rgba(255,248,238,0.08) 76%,
+        rgba(255,248,238,0.98) 20%,
+        rgba(255,248,238,0.90) 32%,
+        rgba(255,248,238,0.55) 48%,
+        rgba(255,248,238,0.10) 65%,
         transparent 100%
       );
   }
@@ -512,12 +508,11 @@
 
   /* ─── RESPONSIVE ─── */
 
-  /* Tablet landscape (900px–1200px): tighten left padding, image stays right-anchored */
+  /* Tablet landscape (900px–1200px) */
   @media (max-width: 1200px) and (min-width: 901px) {
     .hero-left { padding-left: 52px; }
-    .hero-bg img {
-      width: clamp(520px, 72vw, 900px);
-    }
+    .hero-bg { left: 32%; }
+    .hero-bg img { object-position: 25% center; }
   }
 
   /* Tablet portrait + mobile (≤900px) */
@@ -530,36 +525,29 @@
     .nav-cta { padding: 12px 16px; font-size: 11px; gap: 10px; }
 
     .hero {
-      height: clamp(580px, 100svh, 780px);
-      align-items: flex-start;
+      height: clamp(600px, 100svh, 780px);
     }
-    /* On smaller screens the image fills most of the width,
-       anchored bottom-right — figure stays right of copy */
+    /* Shift image box to start earlier so it fills more of the hero */
+    .hero-bg {
+      left: 10%;
+    }
     .hero-bg img {
-      width: clamp(340px, 90vw, 600px);
-      height: 82%;
-      right: 0;
-      bottom: 0;
-      object-position: right bottom;
+      object-position: 22% center;
     }
     .hero-left {
       padding: 36px 24px 0;
-      max-width: 58%;
+      max-width: 56%;
     }
-    /* Stronger left-side overlay for readability on small screens */
+    /* Stronger left cream fade so text stays readable over image */
     .hero-overlay {
       background:
-        linear-gradient(105deg,
+        linear-gradient(100deg,
           rgba(255,248,238,1.00)  0%,
-          rgba(255,248,238,0.98) 28%,
-          rgba(255,248,238,0.88) 44%,
-          rgba(255,248,238,0.55) 62%,
-          rgba(255,248,238,0.12) 80%,
+          rgba(255,248,238,0.99) 24%,
+          rgba(255,248,238,0.92) 38%,
+          rgba(255,248,238,0.60) 55%,
+          rgba(255,248,238,0.15) 72%,
           transparent 100%
-        ),
-        linear-gradient(180deg,
-          rgba(255,248,238,0.0) 60%,
-          rgba(255,248,238,0.7) 100%
         );
     }
     .hero-headline { font-size: clamp(40px, 9vw, 64px); }
@@ -571,25 +559,23 @@
     .footer-bar { padding: 16px 24px; }
   }
 
-  /* Small mobile (≤480px): stack content more tightly */
+  /* Small mobile (≤480px): image fills full width behind text */
   @media (max-width: 480px) {
-    .hero { height: clamp(620px, 100svh, 750px); }
-    .hero-bg img {
-      width: 100vw;
-      height: 65%;
-      object-position: 55% bottom;
-    }
+    .hero { height: clamp(640px, 100svh, 760px); }
+    .hero-bg { left: 0; }
+    .hero-bg img { object-position: 68% center; }
     .hero-left {
       padding: 28px 20px 0;
       max-width: 100%;
     }
+    /* Full vertical gradient — opaque top, transparent bottom — so figure shows at base */
     .hero-overlay {
       background:
         linear-gradient(180deg,
           rgba(255,248,238,1.00)  0%,
-          rgba(255,248,238,0.98) 38%,
-          rgba(255,248,238,0.78) 56%,
-          rgba(255,248,238,0.20) 78%,
+          rgba(255,248,238,0.97) 35%,
+          rgba(255,248,238,0.80) 54%,
+          rgba(255,248,238,0.25) 76%,
           transparent 100%
         );
     }
