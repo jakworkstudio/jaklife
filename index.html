@@ -45,7 +45,7 @@ body {
 }
 
 /* ════════════════════════════════════════
-   NAV
+  NAV
 ════════════════════════════════════════ */
 nav {
   position: relative;
@@ -128,67 +128,71 @@ nav {
 .nav-cta svg  { width: 15px; height: 15px; flex-shrink: 0; }
 
 /* ════════════════════════════════════════
-   HERO
+  HERO — CSS Grid, two fixed-proportion columns
+  Col 1 (42%): copy text
+  Col 2 (58%): illustration
+  Image lives in its own grid cell → no
+  absolute offsets, no viewport drift.
 ════════════════════════════════════════ */
 .hero {
-  position: relative;
+  display: grid;
+  grid-template-columns: 50fr 130fr;
+  position: relative;          /* for overlay */
   width: 100%;
-  height: calc(100vh - 88px);
+  height: calc(80vh - 88px);
   min-height: 600px;
   max-height: 860px;
   overflow: hidden;
-  display: flex;
-  align-items: flex-start;
 }
 
-/* ── image layer ── */
-.hero-bg {
-  position: absolute;
-  /* Left edge sits just past the copy column (~40% mark) */
-  left: 36%;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.hero-bg img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Pull the image left enough to show the figure clearly */
-  object-position: 20% center;
-  display: block;
-}
-
-/* ── gradient: left-to-right cream fade ── */
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  /* Two-stop gradient: hard cream on left, feathers into image */
-  background: linear-gradient(
-    100deg,
-    var(--cream) 0%,
-    var(--cream) 30%,
-    rgba(255,248,238,0.92) 40%,
-    rgba(255,248,238,0.60) 52%,
-    rgba(255,248,238,0.15) 66%,
-    transparent 80%
-  );
-}
-
-/* ── copy block ── */
+/* ── Col 1: copy ── */
 .hero-left {
   position: relative;
   z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding-left: var(--pad-x);
   padding-right: 40px;
-  padding-top: clamp(48px, 8vh, 100px);
-  max-width: 600px;
+  /* Visual weight: sit slightly above true center */
+  padding-bottom: clamp(80px, 10vh, 130px);
+}
+
+/* ── Col 2: image ── */
+.hero-bg {
+  position: relative;
+  overflow: hidden;
+  /* Grid places this in col 2 automatically */
+}
+
+/* Fill the entire col-2 cell, no absolute needed */
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* 15% keeps the figure centre-left within the image asset */
+  object-position: 15% center;
+  display: block;
+}
+
+/* ── Gradient seam overlay — spans full hero ── */
+/* position:absolute over the grid root, not a grid child */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  /* Grid: absolute children don't consume a cell */
+  grid-column: 1 / -1;
+  background: linear-gradient(
+    to right,
+    var(--cream)               0%,
+    var(--cream)               26%,
+    rgba(255,248,238,0.90)     38%,
+    rgba(255,248,238,0.50)     50%,
+    rgba(255,248,238,0.10)     63%,
+    transparent                76%
+  );
 }
 
 .hero-eyebrow {
@@ -293,7 +297,7 @@ nav {
 .btn-ghost svg { width: 14px; height: 14px; }
 
 /* ════════════════════════════════════════
-   VALUE STRIP — overlaps hero bottom
+  VALUE STRIP — overlaps hero bottom
 ════════════════════════════════════════ */
 .value-strip {
   position: relative;
@@ -355,7 +359,7 @@ nav {
 }
 
 /* ════════════════════════════════════════
-   PURPOSE SECTION
+  PURPOSE SECTION
 ════════════════════════════════════════ */
 .purpose-section {
   padding: var(--sp-2xl) var(--pad-x);
@@ -460,7 +464,7 @@ nav {
 }
 
 /* ════════════════════════════════════════
-   FOOTER BAR
+  FOOTER BAR
 ════════════════════════════════════════ */
 .footer-bar {
   background: var(--navy);
@@ -487,7 +491,7 @@ nav {
 }
 
 /* ════════════════════════════════════════
-   ANIMATIONS
+  ANIMATIONS
 ════════════════════════════════════════ */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
@@ -504,65 +508,72 @@ nav {
 }
 
 /* ════════════════════════════════════════
-   RESPONSIVE
+  RESPONSIVE
 ════════════════════════════════════════ */
 
-/* ── Tablet landscape: 901–1200px ── */
-@media (max-width: 1200px) and (min-width: 901px) {
-  .hero-bg { left: 40%; }
-  .hero-bg img { object-position: 18% center; }
-  .hero-left { max-width: 520px; }
+/* ════════════════════════════════════════
+  RESPONSIVE
+════════════════════════════════════════ */
+
+/* ── Tablet landscape: 901–1280px ── */
+@media (max-width: 1280px) and (min-width: 901px) {
+  /* Slightly more room for copy as viewport narrows */
+  .hero { grid-template-columns: 46fr 54fr; }
+  .hero-bg img { object-position: 12% center; }
+  .hero-left { padding-right: 28px; }
   .purpose-section { gap: 48px; }
 }
 
-/* ── Tablet portrait: ≤900px ── */
+/* ── Tablet portrait: 521–900px ── */
 @media (max-width: 900px) {
   :root { --pad-x: 32px; }
-  
+
   nav { height: 72px; }
   .nav-logo { font-size: 28px; }
   .nav-logo span { font-size: 17px; }
   .nav-links { display: none; }
   .nav-cta { padding: 11px 18px; font-size: 12px; gap: 10px; }
 
+  /* Give copy more room; image still in its own column */
   .hero {
+    grid-template-columns: 52fr 48fr;
     height: calc(100svh - 72px);
-    min-height: 580px;
-    max-height: 820px;
-    align-items: flex-start;
+    min-height: 540px;
+    max-height: 800px;
   }
-  .hero-left { padding-top: clamp(36px, 6vh, 64px); max-width: 52%; padding-right: 16px; }
-  .hero-headline { font-size: clamp(42px, 8vw, 66px); }
-  .hero-subtext  { font-size: 14px; max-width: 100%; }
-
-  /* Image starts closer to left edge; stronger overlay for legibility */
-  .hero-bg { left: 8%; }
-  .hero-bg img { object-position: 18% center; }
+  .hero-bg img { object-position: 10% center; }
+  /* Stronger fade for narrower copy column */
   .hero-overlay {
     background: linear-gradient(
-      100deg,
-      var(--cream) 0%,
-      var(--cream) 22%,
-      rgba(255,248,238,0.95) 34%,
-      rgba(255,248,238,0.72) 48%,
-      rgba(255,248,238,0.22) 65%,
-      transparent 82%
+      to right,
+      var(--cream)             0%,
+      var(--cream)             32%,
+      rgba(255,248,238,0.94)   44%,
+      rgba(255,248,238,0.58)   56%,
+      rgba(255,248,238,0.12)   70%,
+      transparent              82%
     );
   }
+  .hero-left {
+    padding-right: 16px;
+    padding-bottom: clamp(60px, 8vh, 96px);
+  }
+  .hero-headline { font-size: clamp(40px, 7.5vw, 62px); }
+  .hero-subtext  { font-size: 14px; max-width: 100%; }
 
-  /* Value strip: 2-col grid, no negative margin overlap on mobile */
+  /* Value strip: 2-col, remove negative margin on narrow screens */
   .value-strip {
     margin: 24px var(--pad-x) 0;
     grid-template-columns: 1fr 1fr;
     border-radius: 12px;
   }
   .value-item:nth-child(2) { border-right: none; }
-  .value-item:nth-child(3) { border-top: 1px solid var(--border); }
+  .value-item:nth-child(3) { border-top: 1px solid var(--border); border-right: 1px solid var(--border); }
   .value-item:nth-child(4) { border-top: 1px solid var(--border); border-right: none; }
   .value-item:first-child  { border-radius: 12px 0 0 0; }
-  .value-item:last-child   { border-radius: 0 0 12px 0; }
   .value-item:nth-child(2) { border-radius: 0 12px 0 0; }
   .value-item:nth-child(3) { border-radius: 0 0 0 12px; }
+  .value-item:last-child   { border-radius: 0 0 12px 0; }
 
   /* Purpose: single column */
   .purpose-section {
@@ -581,42 +592,52 @@ nav {
   .nav-logo { font-size: 24px; }
   .nav-logo span { font-size: 14px; letter-spacing: 0.32em; }
 
+  /* Stack vertically: copy row, then image row */
   .hero {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 300px;
     height: auto;
-    min-height: 100svh;
+    min-height: unset;
     max-height: none;
-    align-items: flex-start;
   }
+  .hero-left {
+    grid-row: 1;
+    grid-column: 1;
+    padding-top: 28px;
+    padding-bottom: 28px;
+    padding-right: var(--pad-x);
+  }
+  .hero-bg {
+    grid-row: 2;
+    grid-column: 1;
+  }
+  .hero-bg img { object-position: center 18%; }
 
-  /* On small screens: image fills full hero, copy floats over the top */
-  .hero-bg { left: 0; }
-  .hero-bg img { object-position: 72% center; }
+  /* Vertical fade: translucent bottom of copy blends into image top */
   .hero-overlay {
     background: linear-gradient(
-      170deg,
-      var(--cream) 0%,
-      rgba(255,248,238,0.98) 32%,
-      rgba(255,248,238,0.82) 52%,
-      rgba(255,248,238,0.20) 75%,
-      transparent 100%
+      to bottom,
+      transparent              0%,
+      transparent              55%,
+      rgba(255,248,238,0.5)    72%,
+      var(--cream)             90%
     );
   }
-  .hero-left { max-width: 100%; margin-top: 24px; padding-right: 20px; }
-  .hero-headline { font-size: clamp(38px, 11vw, 54px); }
-  .hero-subtext  { font-size: 14px; max-width: 80%; }
+  .hero-headline { font-size: clamp(38px, 11vw, 52px); }
+  .hero-subtext  { font-size: 14px; max-width: 100%; }
 
   /* Value strip: single column */
   .value-strip {
     grid-template-columns: 1fr;
     border-radius: 10px;
-    margin: 20px var(--pad-x) 0;
+    margin: 0 var(--pad-x);
   }
   .value-item {
     border-right: none !important;
     border-bottom: 1px solid var(--border);
     border-radius: 0 !important;
   }
-  .value-item:last-child { border-bottom: none; }
+  .value-item:last-child  { border-bottom: none; }
   .value-item:first-child { border-radius: 10px 10px 0 0 !important; }
   .value-item:last-child  { border-radius: 0 0 10px 10px !important; }
 
@@ -649,15 +670,7 @@ nav {
 <!-- ═══ HERO ═══ -->
 <section class="hero">
 
-  <!-- Background illustration -->
-  <div class="hero-bg">
-    <img src="./background.png" alt="Mountain landscape with a figure navigating their path" />
-  </div>
-
-  <!-- Cream-to-transparent gradient overlay -->
-  <div class="hero-overlay"></div>
-
-  <!-- Copy -->
+  <!-- Col 1: Copy — comes first in DOM = left column in grid -->
   <div class="hero-left">
     <div class="hero-eyebrow anim-1">
       <div class="hero-eyebrow-line"></div>
@@ -690,6 +703,14 @@ nav {
       </a>
     </div>
   </div>
+
+  <!-- Col 2: Illustration — comes second in DOM = right column in grid -->
+  <div class="hero-bg">
+    <img src="./background.png" alt="Mountain landscape with a figure navigating their path" />
+  </div>
+
+  <!-- Overlay spans both columns via position:absolute on .hero -->
+  <div class="hero-overlay"></div>
 
 </section>
 
