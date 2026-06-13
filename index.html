@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/svg+xml" href="assets/JAKLifeLOGO.svg" />
 <style>
 /* ── RESET & TOKENS ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -59,22 +60,16 @@ nav {
 }
 
 .nav-logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 36px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--navy);
+  display: flex;
+  align-items: center;
   text-decoration: none;
   line-height: 1;
 }
 
-.nav-logo span {
-  color: var(--teal);
-  font-family: 'Inter', sans-serif;
-  font-size: 22px;
-  font-weight: 400;
-  letter-spacing: 0.42em;
-  margin-left: 2px;
+.nav-logo img {
+  height: 120px;
+  width: auto;
+  display: block;
 }
 
 .nav-links {
@@ -136,10 +131,10 @@ nav {
 ════════════════════════════════════════ */
 .hero {
   display: grid;
-  grid-template-columns: 50fr 130fr;
+  grid-template-columns: 40fr 100fr;
   position: relative;          /* for overlay */
   width: 100%;
-  height: calc(80vh - 88px);
+  height: calc(90vh - 88px);
   min-height: 600px;
   max-height: 860px;
   overflow: hidden;
@@ -529,8 +524,7 @@ nav {
   :root { --pad-x: 32px; }
 
   nav { height: 72px; }
-  .nav-logo { font-size: 28px; }
-  .nav-logo span { font-size: 17px; }
+  .nav-logo img { height: 42px; }
   .nav-links { display: none; }
   .nav-cta { padding: 11px 18px; font-size: 12px; gap: 10px; }
 
@@ -589,8 +583,7 @@ nav {
   :root { --pad-x: 20px; }
 
   nav { height: 64px; }
-  .nav-logo { font-size: 24px; }
-  .nav-logo span { font-size: 14px; letter-spacing: 0.32em; }
+  .nav-logo img { height: 36px; }
 
   /* Stack vertically: copy row, then image row */
   .hero {
@@ -649,7 +642,7 @@ nav {
 
 <!-- ═══ NAVIGATION ═══ -->
 <nav>
-  <a class="nav-logo" href="#">JAK <span>Life</span></a>
+  <a class="nav-logo" href="#"><img src="assets/JAKLifeLOGO.svg" alt="JAK Life" /></a>
 
   <ul class="nav-links">
     <li><a href="#">About</a></li>
