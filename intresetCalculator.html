@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Interest Calculator — JAK Life Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+
+/* ══════════════════════════════════════
+   TOKENS — identical to index.html
+══════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:       #0B1F3A;
+  --navy-light: #1e3a5f;
+  --blue:       #3A86FF;
+  --teal:       #06D6A0;
+  --gold:       #F4A261;
+  --cream:      #FFF8EE;
+  --cream-dark: #F5EDD9;
+  --muted:      #5a6a7e;
+  --border:     rgba(11,31,58,0.10);
+  --max-w:      1360px;
+  --pad-x:      clamp(24px, 5vw, 96px);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--cream);
+  color: var(--navy);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ══════════════════════════════════════
+   NAV — exact copy from index.html
+══════════════════════════════════════ */
+nav {
+  position: relative;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--pad-x);
+  height: 88px;
+  background: transparent;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--navy);
+  text-decoration: none;
+  line-height: 1;
+}
+.nav-logo span {
+  color: var(--teal);
+  font-family: 'Inter', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.42em;
+  margin-left: 2px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  list-style: none;
+}
+.nav-links a {
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--navy);
+  text-transform: uppercase;
+  opacity: 0.7;
+  transition: opacity 0.18s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: relative;
+}
+.nav-links a:hover { opacity: 1; }
+.nav-links a.active { opacity: 1; }
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  bottom: -26px;
+  height: 2px;
+  background: var(--teal);
+}
+.nav-links .has-dropdown::after {
+  content: '';
+  display: inline-block;
+  width: 0; height: 0;
+  border-left: 3.5px solid transparent;
+  border-right: 3.5px solid transparent;
+  border-top: 4px solid currentColor;
+}
+
+.nav-cta {
+  background: var(--navy);
+  color: #fff;
+  padding: 14px 24px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: background 0.2s, transform 0.15s;
+}
+.nav-cta:hover { background: var(--navy-light); transform: translateY(-1px); }
+.nav-cta svg  { width: 15px; height: 15px; flex-shrink: 0; }
+
+/* ══════════════════════════════════════
+   PAGE HEADER — same pattern as book.html
+══════════════════════════════════════ */
+.page-header {
+  padding: clamp(48px, 7vh, 80px) var(--pad-x) clamp(32px, 4vh, 56px);
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.page-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.page-eyebrow-line {
+  width: 36px; height: 2px;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+.page-eyebrow-text {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  color: var(--navy);
+  opacity: 0.5;
+  text-transform: uppercase;
+}
+
+.page-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(42px, 4.8vw, 72px);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+}
+.page-title em {
+  font-style: normal;
+  font-weight: 400;
+  color: var(--blue);
+}
+
+.page-subtitle {
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 560px;
+}
+
+/* ══════════════════════════════════════
+   MAIN CONTENT GRID
+══════════════════════════════════════ */
+.content-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 32px;
+  padding: 0 var(--pad-x) clamp(64px, 8vh, 100px);
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+  flex: 1;
+  align-items: start;
+}
+
+/* ══════════════════════════════════════
+   INPUT PANEL (left)
+══════════════════════════════════════ */
+.input-panel {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 4px 16px rgba(11,31,58,0.06);
+  position: sticky;
+  top: 24px;
+}
+
+.panel-heading {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--navy);
+  opacity: 0.45;
+  margin-bottom: 22px;
+}
+
+.field-group {
+  margin-bottom: 24px;
+}
+.field-group:last-child { margin-bottom: 0; }
+
+.field-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--navy);
+  text-transform: uppercase;
+}
+
+.field-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--blue);
+  white-space: nowrap;
+}
+
+/* Number input with prefix/suffix */
+.input-with-affix {
+  display: flex;
+  align-items: stretch;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.18s;
+}
+.input-with-affix:focus-within { border-color: var(--blue); }
+
+.input-affix {
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  background: var(--cream-dark);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.field-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: #fff;
+  padding: 13px 14px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  color: var(--navy);
+  min-width: 0;
+  -moz-appearance: textfield;
+}
+.field-input::-webkit-outer-spin-button,
+.field-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* Range slider */
+.field-range {
+  width: 100%;
+  margin-top: 12px;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+.field-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 3px solid #fff;
+  box-shadow: 0 1px 4px rgba(11,31,58,0.25);
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.field-range::-webkit-slider-thumb:hover { transform: scale(1.12); }
+.field-range::-moz-range-thumb {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--blue);
+  border: 3px solid #fff;
+  box-shadow: 0 1px 4px rgba(11,31,58,0.25);
+  cursor: pointer;
+}
+
+/* Compounding frequency segmented control */
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  background: var(--cream-dark);
+  border-radius: 8px;
+  padding: 4px;
+}
+.segmented button {
+  border: none;
+  background: transparent;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--navy);
+  opacity: 0.55;
+  padding: 9px 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.18s, opacity 0.18s, color 0.18s;
+}
+.segmented button:hover { opacity: 0.8; }
+.segmented button.active {
+  background: #fff;
+  opacity: 1;
+  color: var(--blue);
+  box-shadow: 0 2px 6px rgba(11,31,58,0.10);
+}
+
+.disclaimer {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+/* ══════════════════════════════════════
+   RESULTS (right)
+══════════════════════════════════════ */
+.results-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Hero result card */
+.result-hero {
+  background: var(--navy);
+  border-radius: 14px;
+  padding: clamp(28px, 4vw, 44px);
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle compass-rose accent, echoes hero illustration motif */
+.result-hero::after {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(6,214,160,0.10) 0%, transparent 70%);
+}
+
+.result-hero-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 12px;
+}
+
+.result-hero-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(40px, 6vw, 64px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.result-hero-value .accent { color: var(--teal); }
+
+.result-hero-sub {
+  font-size: 13px;
+  color: rgba(255,255,255,0.55);
+}
+
+/* Stat strip — three cards, mirrors .value-strip pattern */
+.stat-strip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(11,31,58,0.06);
+}
+
+.stat-item {
+  padding: 24px 26px;
+  border-right: 1px solid var(--border);
+}
+.stat-item:last-child { border-right: none; }
+
+.stat-icon {
+  width: 36px; height: 36px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+}
+.stat-icon.blue { background: rgba(58,134,255,0.10); }
+.stat-icon.teal { background: rgba(6,214,160,0.10); }
+.stat-icon.gold { background: rgba(244,162,97,0.12); }
+.stat-icon svg { width: 17px; height: 17px; }
+
+.stat-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--navy);
+  opacity: 0.45;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.stat-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(24px, 2.4vw, 32px);
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+}
+
+/* Chart card */
+.chart-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: clamp(24px, 3vw, 36px);
+  box-shadow: 0 4px 16px rgba(11,31,58,0.06);
+}
+
+.chart-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.chart-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(22px, 2.4vw, 28px);
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 20px;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+.legend-dot {
+  width: 10px; height: 10px;
+  border-radius: 3px;
+}
+.legend-dot.contrib { background: var(--blue); }
+.legend-dot.interest { background: var(--teal); }
+
+.chart-svg-wrap {
+  width: 100%;
+  overflow: hidden;
+}
+.chart-svg-wrap svg { width: 100%; height: auto; display: block; }
+
+.chart-x-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+/* Table card */
+.table-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: clamp(24px, 3vw, 36px);
+  box-shadow: 0 4px 16px rgba(11,31,58,0.06);
+}
+
+.table-wrap {
+  overflow-x: auto;
+  margin-top: 20px;
+  max-height: 360px;
+  overflow-y: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: var(--cream-dark);
+  text-align: left;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--navy);
+  opacity: 0.55;
+  padding: 12px 16px;
+  z-index: 1;
+}
+thead th:not(:first-child),
+tbody td:not(:first-child) { text-align: right; }
+
+tbody td {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  color: var(--navy);
+  font-weight: 500;
+  white-space: nowrap;
+}
+tbody tr:nth-child(even) { background: rgba(11,31,58,0.012); }
+tbody td.interest-cell { color: var(--teal); font-weight: 700; }
+tbody td.balance-cell { font-weight: 700; }
+
+/* ══════════════════════════════════════
+   FOOTER BAR — exact copy from index.html
+══════════════════════════════════════ */
+.footer-bar {
+  background: var(--navy);
+  padding: 22px var(--pad-x);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+.footer-bar-left {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: #fff;
+  opacity: 0.35;
+  font-weight: 500;
+}
+.footer-bar-right {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--teal);
+  letter-spacing: 0.06em;
+}
+
+/* ══════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.anim-1 { animation: fadeUp 0.55s ease both 0.06s; }
+.anim-2 { animation: fadeUp 0.55s ease both 0.16s; }
+.anim-3 { animation: fadeUp 0.55s ease both 0.26s; }
+.anim-4 { animation: fadeUp 0.55s ease both 0.36s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+
+/* Tablet landscape */
+@media (max-width: 1100px) and (min-width: 901px) {
+  .content-grid { grid-template-columns: 320px 1fr; gap: 24px; }
+}
+
+/* Tablet portrait */
+@media (max-width: 900px) {
+  nav { height: 72px; }
+  .nav-logo { font-size: 28px; }
+  .nav-logo span { font-size: 17px; }
+  .nav-links { display: none; }
+  .nav-cta { padding: 11px 18px; font-size: 12px; gap: 10px; }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding-bottom: 56px;
+  }
+  .input-panel { position: relative; top: 0; }
+
+  .stat-strip { grid-template-columns: 1fr 1fr; }
+  .stat-item:nth-child(3) { border-right: none; grid-column: 1 / -1; border-top: 1px solid var(--border); }
+}
+
+/* Mobile */
+@media (max-width: 520px) {
+  :root { --pad-x: 20px; }
+  nav { height: 64px; }
+  .nav-logo { font-size: 24px; }
+  .nav-logo span { font-size: 14px; }
+
+  .page-title { font-size: clamp(34px, 10vw, 50px); }
+
+  .stat-strip { grid-template-columns: 1fr; }
+  .stat-item { border-right: none !important; border-bottom: 1px solid var(--border); }
+  .stat-item:last-child { border-bottom: none; }
+
+  .segmented { grid-template-columns: repeat(2, 1fr); }
+
+  .chart-legend { gap: 14px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ NAV ══════════ -->
+<nav>
+  <a class="nav-logo" href="../index.html">JAK <span>Life</span></a>
+
+  <ul class="nav-links">
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#services" class="has-dropdown">Services</a></li>
+    <li><a href="interest-calculator.html" class="active">Tools</a></li>
+    <li><a href="../index.html#resources" class="has-dropdown">Resources</a></li>
+  </ul>
+
+  <a class="nav-cta" href="../book.html">
+    Book a consultation
+    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="2" y1="7" x2="12" y2="7"/><polyline points="8,3 12,7 8,11"/>
+    </svg>
+  </a>
+</nav>
+
+<!-- ══════════ PAGE HEADER ══════════ -->
+<div class="page-header">
+  <div class="page-eyebrow anim-1">
+    <div class="page-eyebrow-line"></div>
+    <p class="page-eyebrow-text">Financial Tools</p>
+  </div>
+  <h1 class="page-title anim-2">Compound Interest <em>Calculator.</em></h1>
+  <p class="page-subtitle anim-3">
+    See how your money grows over time. Adjust your starting amount, monthly
+    contributions, rate of return, and time horizon to visualize your path to freedom.
+  </p>
+</div>
+
+<!-- ══════════ MAIN GRID ══════════ -->
+<div class="content-grid anim-4">
+
+  <!-- ── INPUT PANEL ── -->
+  <aside class="input-panel">
+    <p class="panel-heading">Your numbers</p>
+
+    <div class="field-group">
+      <div class="field-label-row">
+        <label class="field-label" for="principal">Initial amount</label>
+        <span class="field-value" id="principal-display">₹1,00,000</span>
+      </div>
+      <div class="input-with-affix">
+        <span class="input-affix">₹</span>
+        <input class="field-input" type="number" id="principal" value="100000" min="0" step="1000" />
+      </div>
+      <input class="field-range" type="range" id="principal-range" min="0" max="2000000" step="5000" value="100000" />
+    </div>
+
+    <div class="field-group">
+      <div class="field-label-row">
+        <label class="field-label" for="contribution">Monthly contribution</label>
+        <span class="field-value" id="contribution-display">₹5,000</span>
+      </div>
+      <div class="input-with-affix">
+        <span class="input-affix">₹</span>
+        <input class="field-input" type="number" id="contribution" value="5000" min="0" step="500" />
+      </div>
+      <input class="field-range" type="range" id="contribution-range" min="0" max="100000" step="500" value="5000" />
+    </div>
+
+    <div class="field-group">
+      <div class="field-label-row">
+        <label class="field-label" for="rate">Annual return</label>
+        <span class="field-value" id="rate-display">8%</span>
+      </div>
+      <div class="input-with-affix">
+        <input class="field-input" type="number" id="rate" value="8" min="0" max="30" step="0.1" />
+        <span class="input-affix">%</span>
+      </div>
+      <input class="field-range" type="range" id="rate-range" min="0" max="20" step="0.1" value="8" />
+    </div>
+
+    <div class="field-group">
+      <div class="field-label-row">
+        <label class="field-label" for="years">Time horizon</label>
+        <span class="field-value" id="years-display">15 yrs</span>
+      </div>
+      <div class="input-with-affix">
+        <input class="field-input" type="number" id="years" value="15" min="1" max="50" step="1" />
+        <span class="input-affix">yrs</span>
+      </div>
+      <input class="field-range" type="range" id="years-range" min="1" max="40" step="1" value="15" />
+    </div>
+
+    <div class="field-group">
+      <div class="field-label-row">
+        <label class="field-label">Compounding</label>
+      </div>
+      <div class="segmented" id="compounding-group">
+        <button type="button" data-n="1">Yearly</button>
+        <button type="button" data-n="2">Semi-Yr</button>
+        <button type="button" data-n="4">Quarterly</button>
+        <button type="button" data-n="12" class="active">Monthly</button>
+      </div>
+    </div>
+
+    <p class="disclaimer">
+      This calculator provides estimates for planning purposes only and isn't financial advice.
+      Actual returns vary. Speak with JAK Life for a personalized financial plan.
+    </p>
+  </aside>
+
+  <!-- ── RESULTS ── -->
+  <div class="results-col">
+
+    <!-- Hero result -->
+    <div class="result-hero">
+      <p class="result-hero-label">Projected balance after <span id="hero-years">15</span> years</p>
+      <p class="result-hero-value">₹<span id="hero-total">0</span></p>
+      <p class="result-hero-sub">
+        Built from <span id="hero-contrib-pct">0</span>% contributions and
+        <span class="accent" id="hero-interest-pct" style="color:var(--teal); font-weight:700;">0</span>% compound growth
+      </p>
+    </div>
+
+    <!-- Stat strip -->
+    <div class="stat-strip">
+      <div class="stat-item">
+        <div class="stat-icon blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#3A86FF" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="6" width="20" height="14" rx="2"/>
+            <line x1="2" y1="10" x2="22" y2="10"/>
+          </svg>
+        </div>
+        <p class="stat-label">Total Contributed</p>
+        <p class="stat-value" id="stat-contributed">₹0</p>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon teal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#06D6A0" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3,17 9,11 13,15 21,6"/>
+            <polyline points="15,6 21,6 21,12"/>
+          </svg>
+        </div>
+        <p class="stat-label">Interest Earned</p>
+        <p class="stat-value" id="stat-interest">₹0</p>
+      </div>
+      <div class="stat-item">
+        <div class="stat-icon gold">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F4A261" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <p class="stat-label">Final Balance</p>
+        <p class="stat-value" id="stat-final">₹0</p>
+      </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="chart-card">
+      <div class="chart-card-head">
+        <p class="chart-title">Growth Over Time</p>
+        <div class="chart-legend">
+          <div class="legend-item"><span class="legend-dot contrib"></span> Contributions</div>
+          <div class="legend-item"><span class="legend-dot interest"></span> Interest</div>
+        </div>
+      </div>
+      <div class="chart-svg-wrap">
+        <svg id="chart-svg" viewBox="0 0 720 280" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- gridlines -->
+          <g id="grid-lines" stroke="rgba(11,31,58,0.06)" stroke-width="1"></g>
+          <!-- areas -->
+          <path id="area-contrib" fill="#3A86FF" fill-opacity="0.16"></path>
+          <path id="area-total" fill="#06D6A0" fill-opacity="0.18"></path>
+          <!-- lines -->
+          <path id="line-contrib" fill="none" stroke="#3A86FF" stroke-width="2"></path>
+          <path id="line-total" fill="none" stroke="#06D6A0" stroke-width="2.5"></path>
+        </svg>
+      </div>
+      <div class="chart-x-labels" id="chart-x-labels"></div>
+    </div>
+
+    <!-- Year-by-year table -->
+    <div class="table-card">
+      <p class="chart-title">Year-by-Year Breakdown</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Year</th>
+              <th>Contributions</th>
+              <th>Interest Earned</th>
+              <th>Balance</th>
+            </tr>
+          </thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════ FOOTER ══════════ -->
+<div class="footer-bar">
+  <p class="footer-bar-left">Clarity · Direction · Freedom</p>
+  <p class="footer-bar-right">JAK Life</p>
+</div>
+
+<script>
+/* ─────────────────────────────────────
+   ELEMENT REFERENCES
+───────────────────────────────────── */
+const principalInput   = document.getElementById('principal');
+const principalRange   = document.getElementById('principal-range');
+const principalDisplay = document.getElementById('principal-display');
+
+const contribInput   = document.getElementById('contribution');
+const contribRange   = document.getElementById('contribution-range');
+const contribDisplay = document.getElementById('contribution-display');
+
+const rateInput   = document.getElementById('rate');
+const rateRange   = document.getElementById('rate-range');
+const rateDisplay = document.getElementById('rate-display');
+
+const yearsInput   = document.getElementById('years');
+const yearsRange   = document.getElementById('years-range');
+const yearsDisplay = document.getElementById('years-display');
+
+const compGroup = document.getElementById('compounding-group');
+let compoundingN = 12; // periods per year
+
+/* ─────────────────────────────────────
+   FORMATTING HELPERS
+───────────────────────────────────── */
+const fmtCurrency = (n) => '₹' + Math.round(n).toLocaleString('en-IN');
+const fmtCurrencyPlain = (n) => Math.round(n).toLocaleString('en-IN');
+
+/* ─────────────────────────────────────
+   SYNC NUMBER INPUT <-> RANGE SLIDER
+───────────────────────────────────── */
+function bindPair(numberEl, rangeEl, displayEl, formatter, onChange) {
+  function sync(fromRange) {
+    if (fromRange) numberEl.value = rangeEl.value;
+    else rangeEl.value = numberEl.value || 0;
+    displayEl.textContent = formatter(parseFloat(numberEl.value) || 0);
+    onChange();
+  }
+  numberEl.addEventListener('input', () => sync(false));
+  rangeEl.addEventListener('input', () => sync(true));
+  return sync;
+}
+
+/* ─────────────────────────────────────
+   CORE CALCULATION
+   FV = P(1+i)^N + PMT * (((1+i)^N - 1) / i)
+   i = periodic rate, N = total periods
+   PMT converted to per-period contribution
+───────────────────────────────────── */
+function projectBalances(P, monthlyPMT, annualRatePct, years, n) {
+  const r = annualRatePct / 100;
+  const i = r / n;                 // periodic rate
+  const pmtPerPeriod = monthlyPMT * (12 / n); // contribution per compounding period
+
+  const series = [];
+  for (let y = 0; y <= years; y++) {
+    const N = n * y;
+    let balance;
+    if (i === 0) {
+      balance = P + pmtPerPeriod * N;
+    } else {
+      balance = P * Math.pow(1 + i, N) +
+                pmtPerPeriod * ((Math.pow(1 + i, N) - 1) / i);
+    }
+    const contributed = P + monthlyPMT * 12 * y;
+    series.push({
+      year: y,
+      balance: balance,
+      contributed: contributed,
+      interest: balance - contributed
+    });
+  }
+  return series;
+}
+
+/* ─────────────────────────────────────
+   RENDER CHART (stacked area)
+───────────────────────────────────── */
+function renderChart(series) {
+  const W = 720, H = 280;
+  const padTop = 16, padBottom = 28, padLeft = 0, padRight = 0;
+  const innerH = H - padTop - padBottom;
+
+  const maxVal = Math.max(...series.map(d => d.balance)) * 1.05 || 1;
+  const n = series.length;
+  const stepX = (W - padLeft - padRight) / (n - 1);
+
+  const yScale = (v) => padTop + innerH - (v / maxVal) * innerH;
+  const xScale = (idx) => padLeft + idx * stepX;
+
+  // Build polyline points
+  let contribPoints = [];
+  let totalPoints = [];
+  series.forEach((d, idx) => {
+    contribPoints.push([xScale(idx), yScale(d.contributed)]);
+    totalPoints.push([xScale(idx), yScale(d.balance)]);
+  });
+
+  const lineContribD = polylinePath(contribPoints);
+  const lineTotalD   = polylinePath(totalPoints);
+
+  // Area paths (close to baseline)
+  const baseY = padTop + innerH;
+  const areaContribD = lineContribD +
+    ` L ${xScale(n-1)} ${baseY} L ${xScale(0)} ${baseY} Z`;
+  const areaTotalD = lineTotalD +
+    ` L ${xScale(n-1)} ${baseY} L ${xScale(0)} ${baseY} Z`;
+
+  document.getElementById('line-contrib').setAttribute('d', lineContribD);
+  document.getElementById('line-total').setAttribute('d', lineTotalD);
+  document.getElementById('area-contrib').setAttribute('d', areaContribD);
+  document.getElementById('area-total').setAttribute('d', areaTotalD);
+
+  // Gridlines (4 horizontal)
+  const gridGroup = document.getElementById('grid-lines');
+  gridGroup.innerHTML = '';
+  for (let g = 1; g <= 3; g++) {
+    const gy = padTop + (innerH / 4) * g;
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', 0);
+    line.setAttribute('x2', W);
+    line.setAttribute('y1', gy);
+    line.setAttribute('y2', gy);
+    gridGroup.appendChild(line);
+  }
+
+  // X-axis labels (show ~6 evenly spaced years)
+  const labelsEl = document.getElementById('chart-x-labels');
+  labelsEl.innerHTML = '';
+  const labelCount = Math.min(6, n);
+  for (let k = 0; k < labelCount; k++) {
+    const idx = Math.round((k / (labelCount - 1)) * (n - 1));
+    const span = document.createElement('span');
+    span.textContent = 'Yr ' + series[idx].year;
+    labelsEl.appendChild(span);
+  }
+}
+
+function polylinePath(points) {
+  return points.map((p, i) => (i === 0 ? 'M' : 'L') + ' ' + p[0].toFixed(2) + ' ' + p[1].toFixed(2)).join(' ');
+}
+
+/* ─────────────────────────────────────
+   RENDER TABLE
+───────────────────────────────────── */
+function renderTable(series) {
+  const body = document.getElementById('table-body');
+  body.innerHTML = '';
+  series.forEach((d) => {
+    if (d.year === 0) return; // skip year 0 row
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>Year ${d.year}</td>
+      <td>${fmtCurrency(d.contributed)}</td>
+      <td class="interest-cell">+${fmtCurrency(d.interest)}</td>
+      <td class="balance-cell">${fmtCurrency(d.balance)}</td>
+    `;
+    body.appendChild(tr);
+  });
+}
+
+/* ─────────────────────────────────────
+   RENDER HERO + STATS
+───────────────────────────────────── */
+function renderSummary(series) {
+  const last = series[series.length - 1];
+  const total = last.balance;
+  const contributed = last.contributed;
+  const interest = last.interest;
+
+  document.getElementById('hero-years').textContent = last.year;
+  document.getElementById('hero-total').textContent = fmtCurrencyPlain(total);
+
+  const contribPct = total > 0 ? Math.round((contributed / total) * 100) : 0;
+  const interestPct = 100 - contribPct;
+  document.getElementById('hero-contrib-pct').textContent = contribPct;
+  document.getElementById('hero-interest-pct').textContent = interestPct;
+
+  document.getElementById('stat-contributed').textContent = fmtCurrency(contributed);
+  document.getElementById('stat-interest').textContent = fmtCurrency(interest);
+  document.getElementById('stat-final').textContent = fmtCurrency(total);
+}
+
+/* ─────────────────────────────────────
+   MASTER UPDATE
+───────────────────────────────────── */
+function update() {
+  const P    = parseFloat(principalInput.value) || 0;
+  const PMT  = parseFloat(contribInput.value) || 0;
+  const rate = parseFloat(rateInput.value) || 0;
+  const yrs  = Math.max(1, Math.min(40, parseInt(yearsInput.value) || 1));
+
+  const series = projectBalances(P, PMT, rate, yrs, compoundingN);
+
+  renderSummary(series);
+  renderChart(series);
+  renderTable(series);
+}
+
+/* ─────────────────────────────────────
+   BIND INPUTS
+───────────────────────────────────── */
+bindPair(principalInput, principalRange, principalDisplay, (v) => fmtCurrency(v), update);
+bindPair(contribInput,   contribRange,   contribDisplay,   (v) => fmtCurrency(v), update);
+bindPair(rateInput,      rateRange,      rateDisplay,      (v) => v.toFixed(1).replace(/\.0$/, '') + '%', update);
+bindPair(yearsInput,     yearsRange,     yearsDisplay,     (v) => Math.round(v) + ' yrs', update);
+
+/* Compounding segmented control */
+compGroup.querySelectorAll('button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    compGroup.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    compoundingN = parseInt(btn.dataset.n);
+    update();
+  });
+});
+
+/* Initial render */
+update();
+</script>
+
+</body>
+</html>
