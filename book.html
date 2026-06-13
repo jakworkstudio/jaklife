@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/svg+xml" href="assets/JAKLifeLOGO.svg" />
 <!-- Calendly widget CSS -->
 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet" />
 <style>
@@ -58,21 +59,16 @@ nav {
 }
 
 .nav-logo {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 36px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--navy);
+  display: flex;
+  align-items: center;
   text-decoration: none;
   line-height: 1;
 }
-.nav-logo span {
-  color: var(--teal);
-  font-family: 'Inter', sans-serif;
-  font-size: 22px;
-  font-weight: 400;
-  letter-spacing: 0.42em;
-  margin-left: 2px;
+
+.nav-logo img {
+  height: 120px;
+  width: auto;
+  display: block;
 }
 
 .nav-links {
@@ -520,8 +516,7 @@ nav {
 /* Tablet portrait */
 @media (max-width: 768px) {
   nav { height: 72px; }
-  .nav-logo { font-size: 28px; }
-  .nav-logo span { font-size: 17px; }
+  .nav-logo img { height: 42px; }
   .nav-links { display: none; }
 
   .content-grid {
@@ -546,8 +541,7 @@ nav {
 @media (max-width: 520px) {
   :root { --pad-x: 20px; }
   nav { height: 64px; }
-  .nav-logo { font-size: 24px; }
-  .nav-logo span { font-size: 14px; }
+  .nav-logo img { height: 36px; }
 
   .page-title { font-size: clamp(36px, 10vw, 52px); }
 
@@ -561,7 +555,7 @@ nav {
 
 <!-- ══════════ NAV ══════════ -->
 <nav>
-  <a class="nav-logo" href="index.html">JAK <span>Life</span></a>
+  <a class="nav-logo" href="index.html"><img src="assets/JAKLifeLOGO.svg" alt="JAK Life" /></a>
 
   <ul class="nav-links">
     <li><a href="#">About</a></li>
