@@ -48,79 +48,6 @@ body {
 /* ════════════════════════════════════════
   NAV
 ════════════════════════════════════════ */
-nav {
-  position: relative;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 var(--pad-x);
-  height: 88px;
-  background: transparent;
-}
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  line-height: 1;
-}
-
-.nav-logo img {
-  height: 120px;
-  width: auto;
-  display: block;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  list-style: none;
-}
-
-.nav-links a {
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: var(--navy);
-  text-transform: uppercase;
-  opacity: 0.7;
-  transition: opacity 0.18s;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.nav-links a:hover { opacity: 1; }
-
-.nav-links .has-dropdown::after {
-  content: '';
-  display: inline-block;
-  width: 0; height: 0;
-  border-left: 3.5px solid transparent;
-  border-right: 3.5px solid transparent;
-  border-top: 4px solid currentColor;
-}
-
-.nav-cta {
-  background: var(--navy);
-  color: #fff;
-  padding: 14px 24px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  transition: background 0.2s, transform 0.15s;
-}
-
-.nav-cta:hover { background: var(--navy-light); transform: translateY(-1px); }
-.nav-cta svg  { width: 15px; height: 15px; flex-shrink: 0; }
 
 /* ════════════════════════════════════════
   HERO — CSS Grid, two fixed-proportion columns
@@ -461,29 +388,6 @@ nav {
 /* ════════════════════════════════════════
   FOOTER BAR
 ════════════════════════════════════════ */
-.footer-bar {
-  background: var(--navy);
-  padding: 22px var(--pad-x);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.footer-bar-left {
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  color: #fff;
-  font-weight: 500;
-}
-
-.footer-bar-right {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--teal);
-  letter-spacing: 0.06em;
-}
-
 /* ════════════════════════════════════════
   ANIMATIONS
 ════════════════════════════════════════ */
@@ -522,12 +426,7 @@ nav {
 @media (max-width: 900px) {
   :root { --pad-x: 32px; }
 
-  nav { height: 72px; }
-  .nav-logo img { height: 42px; }
-  .nav-links { display: none; }
-  .nav-cta { padding: 11px 18px; font-size: 12px; gap: 10px; }
-
-  /* Give copy more room; image still in its own column */
+          /* Give copy more room; image still in its own column */
   .hero {
     grid-template-columns: 52fr 48fr;
     height: calc(100svh - 72px);
@@ -581,10 +480,7 @@ nav {
 @media (max-width: 520px) {
   :root { --pad-x: 20px; }
 
-  nav { height: 64px; }
-  .nav-logo img { height: 36px; }
-
-  /* Stack vertically: copy row, then image row */
+      /* Stack vertically: copy row, then image row */
   .hero {
     grid-template-columns: 1fr;
     grid-template-rows: auto 300px;
@@ -640,25 +536,6 @@ nav {
 <body>
 
 <!-- ═══ NAVIGATION ═══ -->
-<nav>
-  <a class="nav-logo" href="#"><img src="assets/JAKLifeLOGO.svg" alt="JAK Life" /></a>
-
-  <ul class="nav-links">
-    <li><a href="#">About</a></li>
-    <li><a href="#" class="has-dropdown">Services</a></li>
-    <li><a href="#" class="has-dropdown">Social Initiative</a></li>
-    <li><a href="tools/interest-calculator.html">Tools</a></li>
-    <li><a href="#" class="has-dropdown">Resources</a></li>
-  </ul>
-
-  <a class="nav-cta" href="book.html">
-    Book a consultation
-    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="2" y1="7" x2="12" y2="7"/><polyline points="8,3 12,7 8,11"/>
-    </svg>
-  </a>
-</nav>
-
 <!-- ═══ HERO ═══ -->
 <section class="hero">
 
@@ -814,12 +691,6 @@ nav {
   </div>
 
 </section>
-
-<!-- ═══ FOOTER BAR ═══ -->
-<div class="footer-bar">
-  <p class="footer-bar-left">Clarity · Direction · Freedom</p>
-  <!-- <p class="footer-bar-right">JAK Life</p> -->
-</div>
-
+<script src="./components.js"></script>
 </body>
 </html>
