@@ -62,6 +62,7 @@
 
   /* ── 3. All site links — pure relative, no file:// or http:// ────*/
   var LOGO  = base + 'assets/JAKLifeLOGO.svg';
+  var FootLOGO = base + 'assets/JAKLifeLOGO-lite.svg';
   var HOME  = base + 'index.html';
   var ABOUT = base + 'about.html';
   var BOOK  = base + 'book.html';
@@ -119,7 +120,7 @@
     + '<footer id="jak-footer">'
     +   '<div class="jak-foot">'
     +     '<p class="jak-foot-l">Clarity &middot; Direction &middot; Freedom</p>'
-    +     '<p class="jak-foot-r">JAK Life</p>'
+    +     '<a class="jak-logo-footer" href="' + HOME + '"><img src="' + FootLOGO + '" alt="JAK Life"/></a>'
     +   '</div>'
     + '</footer>';
 
@@ -133,6 +134,7 @@
 /* logo */
 + '.jak-logo{display:flex;align-items:center;text-decoration:none;flex-shrink:0;}'
 + '.jak-logo img{height:120px;width:auto;display:block;}'
++ '.jak-logo-footer img{height:80px;width:auto;display:block;}'
 /* desktop links list */
 + '.jak-links{display:flex;align-items:center;gap:36px;list-style:none;margin:0;padding:0;}'
 + '.jak-links a{'
