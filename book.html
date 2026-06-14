@@ -46,75 +46,6 @@ body {
 /* ══════════════════════════════════════
    NAV — exact copy from index.html
 ══════════════════════════════════════ */
-nav {
-  position: relative;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 var(--pad-x);
-  height: 88px;
-  background: transparent;
-  border-bottom: 1px solid var(--border);
-}
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  line-height: 1;
-}
-
-.nav-logo img {
-  height: 120px;
-  width: auto;
-  display: block;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  list-style: none;
-}
-.nav-links a {
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: var(--navy);
-  text-transform: uppercase;
-  opacity: 0.7;
-  transition: opacity 0.18s;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.nav-links a:hover { opacity: 1; }
-.nav-links .has-dropdown::after {
-  content: '';
-  display: inline-block;
-  width: 0; height: 0;
-  border-left: 3.5px solid transparent;
-  border-right: 3.5px solid transparent;
-  border-top: 4px solid currentColor;
-}
-
-.nav-back {
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--navy);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  opacity: 0.6;
-  transition: opacity 0.18s, gap 0.2s;
-}
-.nav-back:hover { opacity: 1; gap: 14px; }
-.nav-back svg { width: 14px; height: 14px; }
 
 /* ══════════════════════════════════════
    PAGE HEADER
@@ -465,29 +396,6 @@ nav {
 /* ══════════════════════════════════════
    FOOTER BAR — exact copy from index.html
 ══════════════════════════════════════ */
-.footer-bar {
-  background: var(--navy);
-  padding: 22px var(--pad-x);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: auto;
-}
-.footer-bar-left {
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  color: #fff;
-  opacity: 0.35;
-  font-weight: 500;
-}
-.footer-bar-right {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--teal);
-  letter-spacing: 0.06em;
-}
-
 /* ══════════════════════════════════════
    ANIMATIONS
 ══════════════════════════════════════ */
@@ -515,11 +423,7 @@ nav {
 
 /* Tablet portrait */
 @media (max-width: 768px) {
-  nav { height: 72px; }
-  .nav-logo img { height: 42px; }
-  .nav-links { display: none; }
-
-  .content-grid {
+        .content-grid {
     grid-template-columns: 1fr;
     gap: 32px;
     padding-bottom: 56px;
@@ -540,10 +444,7 @@ nav {
 /* Mobile */
 @media (max-width: 520px) {
   :root { --pad-x: 20px; }
-  nav { height: 64px; }
-  .nav-logo img { height: 36px; }
-
-  .page-title { font-size: clamp(36px, 10vw, 52px); }
+      .page-title { font-size: clamp(36px, 10vw, 52px); }
 
   .session-selector { grid-template-columns: 1fr; }
   .trust-row { flex-direction: column; }
@@ -552,27 +453,6 @@ nav {
 </style>
 </head>
 <body>
-
-<!-- ══════════ NAV ══════════ -->
-<nav>
-  <a class="nav-logo" href="index.html"><img src="assets/JAKLifeLOGO.svg" alt="JAK Life" /></a>
-
-  <ul class="nav-links">
-    <li><a href="#">About</a></li>
-    <li><a href="#" class="has-dropdown">Services</a></li>
-    <li><a href="#" class="has-dropdown">Social Initiative</a></li>
-    <li><a href="tools/interest-calculator.html">Tools</a></li>
-    <li><a href="#" class="has-dropdown">Resources</a></li>
-  </ul>
-
-  <a class="nav-back" href="index.html">
-    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="12" y1="7" x2="2" y2="7"/><polyline points="6,3 2,7 6,11"/>
-    </svg>
-    Back to home
-  </a>
-</nav>
-
 <!-- ══════════ PAGE HEADER ══════════ -->
 <div class="page-header">
   <div class="page-eyebrow anim-1">
@@ -779,13 +659,6 @@ nav {
 
   </div>
 </div>
-
-<!-- ══════════ FOOTER ══════════ -->
-<div class="footer-bar">
-  <p class="footer-bar-left">Clarity · Direction · Freedom</p>
-  <p class="footer-bar-right">JAK Life</p>
-</div>
-
 <!-- Calendly widget script -->
 <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
@@ -859,5 +732,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 </script>
 
+<script src="./components.js"></script>
 </body>
 </html>

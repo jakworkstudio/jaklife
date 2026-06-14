@@ -44,86 +44,6 @@ body {
 /* ══════════════════════════════════════
    NAV — exact copy from index.html
 ══════════════════════════════════════ */
-nav {
-  position: relative;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 var(--pad-x);
-  height: 88px;
-  background: transparent;
-  border-bottom: 1px solid var(--border);
-}
-
-.nav-logo {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  line-height: 1;
-}
-
-.nav-logo img {
-  height: 120px;
-  width: auto;
-  display: block;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 40px;
-  list-style: none;
-}
-.nav-links a {
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  color: var(--navy);
-  text-transform: uppercase;
-  opacity: 0.7;
-  transition: opacity 0.18s;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  position: relative;
-}
-.nav-links a:hover { opacity: 1; }
-.nav-links a.active { opacity: 1; }
-.nav-links a.active::after {
-  content: '';
-  position: absolute;
-  left: 0; right: 0;
-  bottom: -26px;
-  height: 2px;
-  background: var(--teal);
-}
-.nav-links .has-dropdown::after {
-  content: '';
-  display: inline-block;
-  width: 0; height: 0;
-  border-left: 3.5px solid transparent;
-  border-right: 3.5px solid transparent;
-  border-top: 4px solid currentColor;
-}
-
-.nav-cta {
-  background: var(--navy);
-  color: #fff;
-  padding: 14px 24px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  transition: background 0.2s, transform 0.15s;
-}
-.nav-cta:hover { background: var(--navy-light); transform: translateY(-1px); }
-.nav-cta svg  { width: 15px; height: 15px; flex-shrink: 0; }
 
 /* ══════════════════════════════════════
    PAGE HEADER — same pattern as book.html
@@ -570,29 +490,6 @@ tbody td.balance-cell { font-weight: 700; }
 /* ══════════════════════════════════════
    FOOTER BAR — exact copy from index.html
 ══════════════════════════════════════ */
-.footer-bar {
-  background: var(--navy);
-  padding: 22px var(--pad-x);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: auto;
-}
-.footer-bar-left {
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  color: #fff;
-  opacity: 0.35;
-  font-weight: 500;
-}
-.footer-bar-right {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--teal);
-  letter-spacing: 0.06em;
-}
-
 /* ══════════════════════════════════════
    ANIMATIONS
 ══════════════════════════════════════ */
@@ -620,12 +517,7 @@ tbody td.balance-cell { font-weight: 700; }
 
 /* Tablet portrait */
 @media (max-width: 900px) {
-  nav { height: 72px; }
-  .nav-logo img { height: 42px; }
-  .nav-links { display: none; }
-  .nav-cta { padding: 11px 18px; font-size: 12px; gap: 10px; }
-
-  .content-grid {
+          .content-grid {
     grid-template-columns: 1fr;
     gap: 24px;
     padding-bottom: 56px;
@@ -639,10 +531,7 @@ tbody td.balance-cell { font-weight: 700; }
 /* Mobile */
 @media (max-width: 520px) {
   :root { --pad-x: 20px; }
-  nav { height: 64px; }
-  .nav-logo img { height: 36px; }
-
-  .page-title { font-size: clamp(34px, 10vw, 50px); }
+      .page-title { font-size: clamp(34px, 10vw, 50px); }
 
   .stat-strip { grid-template-columns: 1fr; }
   .stat-item { border-right: none !important; border-bottom: 1px solid var(--border); }
@@ -655,27 +544,6 @@ tbody td.balance-cell { font-weight: 700; }
 </style>
 </head>
 <body>
-
-<!-- ══════════ NAV ══════════ -->
-<nav>
-  <a class="nav-logo" href="../index.html"><img src="../assets/JAKLifeLOGO.svg" alt="JAK Life" /></a>
-
-  <ul class="nav-links">
-    <li><a href="#">About</a></li>
-    <li><a href="#" class="has-dropdown">Services</a></li>
-    <li><a href="#" class="has-dropdown">Social Initiative</a></li>
-    <li><a href="tools/interest-calculator.html">Tools</a></li>
-    <li><a href="#" class="has-dropdown">Resources</a></li>
-  </ul>
-
-  <a class="nav-cta" href="../book.html">
-    Book a consultation
-    <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="2" y1="7" x2="12" y2="7"/><polyline points="8,3 12,7 8,11"/>
-    </svg>
-  </a>
-</nav>
-
 <!-- ══════════ PAGE HEADER ══════════ -->
 <div class="page-header">
   <div class="page-eyebrow anim-1">
@@ -853,13 +721,6 @@ tbody td.balance-cell { font-weight: 700; }
 
   </div>
 </div>
-
-<!-- ══════════ FOOTER ══════════ -->
-<div class="footer-bar">
-  <p class="footer-bar-left">Clarity · Direction · Freedom</p>
-  <p class="footer-bar-right">JAK Life</p>
-</div>
-
 <script>
 /* ─────────────────────────────────────
    ELEMENT REFERENCES
@@ -1082,5 +943,6 @@ compGroup.querySelectorAll('button').forEach(btn => {
 update();
 </script>
 
+<script src="../components.js"></script>
 </body>
 </html>
