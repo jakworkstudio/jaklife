@@ -63,15 +63,17 @@
   /* ── 3. All site links — pure relative, no file:// or http:// ────*/
   var LOGO  = base + 'assets/JAKLifeLOGO.svg';
   var FootLOGO = base + 'assets/JAKLifeLOGO-lite.svg';
-  var HOME  = base + 'index.html';
-  var ABOUT = base + 'about.html';
-  var BOOK  = base + 'book.html';
-  var TOOL  = base + 'tools/interest-calculator.html';
+  var HOME     = base + 'index.html';
+  var ABOUT    = base + 'about.html';
+  var SERVICES = base + 'services.html';
+  var BOOK     = base + 'book.html';
+  var TOOL     = base + 'tools/interest-calculator.html';
 
   /* ── 4. Detect current page ──────────────────────────────────────*/
-  var isBook = pagePathname.indexOf('book.html') !== -1;
-  var isTool = pagePathname.indexOf('interest-calculator') !== -1;
-  var isHome = !isBook && !isTool;
+  var isBook     = pagePathname.indexOf('book.html') !== -1;
+  var isTool     = pagePathname.indexOf('interest-calculator') !== -1;
+  var isServices = pagePathname.indexOf('services.html') !== -1;
+  var isHome     = !isBook && !isTool && !isServices;
 
   /* ── 5. Active class helper ──────────────────────────────────────*/
   function activeClass(checkPath) {
@@ -94,7 +96,7 @@
     +   '<a class="jak-logo" href="' + HOME + '"><img src="' + LOGO + '" alt="JAK Life"/></a>'
     +   '<ul class="jak-links">'
     +     '<li><a href="' + ABOUT + '"' + activeClass('about') + '>About</a></li>'
-    +     '<li><a href="' + HOME + '#services">Services</a></li>'
+    +     '<li><a href="' + SERVICES + '"' + activeClass('services') + '>Services</a></li>'
     +     '<li><a href="' + HOME + '#social">Social Initiative</a></li>'
     +     '<li><a href="' + TOOL + '"' + activeClass('interest-calculator') + '>Tools</a></li>'
     +     '<li><a href="' + HOME + '#resources">Resources</a></li>'
@@ -106,7 +108,7 @@
     +   '<div class="jak-drawer">'
     +     '<ul>'
     +       '<li><a href="' + ABOUT + '">About</a></li>'
-    +       '<li><a href="' + HOME + '#services">Services</a></li>'
+    +       '<li><a href="' + SERVICES + '">Services</a></li>'
     +       '<li><a href="' + HOME + '#social">Social Initiative</a></li>'
     +       '<li><a href="' + TOOL + '">Tools</a></li>'
     +       '<li><a href="' + HOME + '#resources">Resources</a></li>'
