@@ -66,6 +66,8 @@
   var HOME     = base + 'index.html';
   var ABOUT    = base + 'about.html';
   var SERVICES = base + 'services.html';
+  var SOCIAL   = base + 'social.html';
+  var OMF      = base + 'one-more-friend.html';
   var BOOK     = base + 'book.html';
   var TOOL     = base + 'tools/interest-calculator.html';
 
@@ -73,7 +75,8 @@
   var isBook     = pagePathname.indexOf('book.html') !== -1;
   var isTool     = pagePathname.indexOf('interest-calculator') !== -1;
   var isServices = pagePathname.indexOf('services.html') !== -1;
-  var isHome     = !isBook && !isTool && !isServices;
+  var isSocial   = pagePathname.indexOf('social.html') !== -1 || pagePathname.indexOf('one-more-friend') !== -1;
+  var isHome     = !isBook && !isTool && !isServices && !isSocial;
 
   /* ── 5. Active class helper ──────────────────────────────────────*/
   function activeClass(checkPath) {
@@ -97,7 +100,16 @@
     +   '<ul class="jak-links">'
     +     '<li><a href="' + ABOUT + '"' + activeClass('about') + '>About</a></li>'
     +     '<li><a href="' + SERVICES + '"' + activeClass('services') + '>Services</a></li>'
-    +     '<li><a href="' + HOME + '#social">Social Initiative</a></li>'
+    +     '<li class="jak-dropdown">'
+    +       '<button class="jak-dropdown-trigger' + (isSocial ? ' active' : '') + '" aria-expanded="false" aria-haspopup="true">'
+    +         'Social Initiative'
+    +         '<svg class="jak-chevron" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,1 5,5 9,1"/></svg>'
+    +       '</button>'
+    +       '<div class="jak-dropdown-menu" role="menu">'
+    +         '<a href="' + OMF + '" class="jak-dropdown-item' + (pagePathname.indexOf('one-more-friend') !== -1 ? ' jak-dropdown-item--active' : '') + '" role="menuitem">One More Friend</a>'
+    +       '</div>'
+    +     '</li>'
+
     +     '<li><a href="' + TOOL + '"' + activeClass('interest-calculator') + '>Tools</a></li>'
     +     '<li><a href="' + HOME + '#resources">Resources</a></li>'
     +   '</ul>'
@@ -109,7 +121,7 @@
     +     '<ul>'
     +       '<li><a href="' + ABOUT + '">About</a></li>'
     +       '<li><a href="' + SERVICES + '">Services</a></li>'
-    +       '<li><a href="' + HOME + '#social">Social Initiative</a></li>'
+    +       '<li><a href="' + OMF + '"' + activeClass('one-more-friend') + '>One More Friend</a></li>'
     +       '<li><a href="' + TOOL + '">Tools</a></li>'
     +       '<li><a href="' + HOME + '#resources">Resources</a></li>'
     +     '</ul>'
@@ -202,6 +214,42 @@
 + '}'
 + '.jak-drawer-cta:hover{background:var(--navy-light);}'
 + '.jak-drawer-cta svg{width:14px;height:14px;}'
+/* dropdown */
++ '.jak-dropdown{position:relative;list-style:none;}'
++ '.jak-dropdown-trigger{'
++   'background:none;border:none;cursor:pointer;padding:0;'
++   'display:flex;align-items:center;gap:5px;'
++   'font-family:inherit;font-size:12px;font-weight:700;letter-spacing:0.16em;'
++   'color:var(--navy);text-transform:uppercase;opacity:.7;'
++   'transition:opacity .18s;white-space:nowrap;position:relative;'
++ '}'
++ '.jak-dropdown-trigger:hover{opacity:1;}'
++ '.jak-dropdown-trigger.active{opacity:1;}'
++ '.jak-dropdown-trigger.active::after{'
++   'content:"";position:absolute;left:0;right:0;bottom:-33px;height:2.5px;background:var(--teal);'
++ '}'
++ '.jak-chevron{width:8px;height:8px;flex-shrink:0;transition:transform .2s;}'
++ '.jak-dropdown.open .jak-chevron{transform:rotate(180deg);}'
++ '.jak-dropdown-menu{'
++   'position:absolute;top:calc(100% + 20px);left:50%;'
++   'transform:translateX(-50%) translateY(-4px);'
++   'background:#fff;border:1px solid var(--border);border-radius:10px;'
++   'box-shadow:0 16px 40px rgba(11,31,58,.12),0 3px 8px rgba(11,31,58,.06);'
++   'min-width:180px;padding:6px;'
++   'opacity:0;pointer-events:none;'
++   'transition:opacity .18s,transform .18s;'
++ '}'
++ '.jak-dropdown.open .jak-dropdown-menu{'
++   'opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);'
++ '}'
++ '.jak-dropdown-item{'
++   'display:block;padding:10px 14px;border-radius:6px;'
++   'text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.14em;'
++   'text-transform:uppercase;color:var(--navy);opacity:.7;'
++   'transition:background .13s,opacity .13s;white-space:nowrap;'
++ '}'
++ '.jak-dropdown-item:hover{background:rgba(11,31,58,.04);opacity:1;}'
++ '.jak-dropdown-item--active{opacity:1;color:var(--teal);}'
 /* footer */
 + '#jak-footer{margin-top:auto;}'
 + '.jak-foot{background:var(--navy);padding:22px var(--pad-x);display:flex;align-items:center;justify-content:space-between;}'
@@ -263,6 +311,72 @@
         ham.setAttribute('aria-expanded', 'false');
       });
     }
+  }
+
+  /* ── 14b. Dropdown — click toggle + hover with 2s linger ─────────*/
+  var dropdownEl  = document.querySelector('.jak-dropdown');
+  var triggerBtn  = dropdownEl && dropdownEl.querySelector('.jak-dropdown-trigger');
+  var hoverTimer  = null;
+
+  function openDropdown() {
+    if (!dropdownEl) return;
+    clearTimeout(hoverTimer);
+    dropdownEl.classList.add('open');
+    if (triggerBtn) triggerBtn.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeDropdown() {
+    if (!dropdownEl) return;
+    dropdownEl.classList.remove('open');
+    if (triggerBtn) triggerBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  function scheduleClose() {
+    hoverTimer = setTimeout(closeDropdown, 2000);
+  }
+
+  if (dropdownEl && triggerBtn) {
+    /* Click toggles open/close */
+    triggerBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      clearTimeout(hoverTimer);
+      var isOpen = dropdownEl.classList.contains('open');
+      if (isOpen) { closeDropdown(); } else { openDropdown(); }
+    });
+
+    /* Hover opens immediately; leaving starts the 2s countdown */
+    dropdownEl.addEventListener('mouseenter', function () {
+      openDropdown();
+    });
+    dropdownEl.addEventListener('mouseleave', function () {
+      scheduleClose();
+    });
+
+    /* Re-entering before 2s cancels the close */
+    dropdownEl.addEventListener('mouseenter', function () {
+      clearTimeout(hoverTimer);
+    });
+
+    /* Clicking a menu item closes immediately */
+    var menuItems = dropdownEl.querySelectorAll('.jak-dropdown-item');
+    for (var m = 0; m < menuItems.length; m++) {
+      menuItems[m].addEventListener('click', function () {
+        closeDropdown();
+      });
+    }
+
+    /* Clicking outside closes immediately */
+    document.addEventListener('click', function (e) {
+      if (!dropdownEl.contains(e.target)) {
+        clearTimeout(hoverTimer);
+        closeDropdown();
+      }
+    });
+
+    /* Escape key closes */
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { clearTimeout(hoverTimer); closeDropdown(); }
+    });
   }
 
   /* ── 15. Anchor smooth-scroll with nav offset ────────────────────
