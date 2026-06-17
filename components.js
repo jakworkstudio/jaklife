@@ -70,6 +70,7 @@
   var OMF      = base + 'one-more-friend.html';
   var BOOK     = base + 'book.html';
   var TOOL     = base + 'tools/interest-calculator.html';
+  var CONTACT  = base + 'contact.html';
 
   /* ── 4. Detect current page ──────────────────────────────────────*/
   var isBook     = pagePathname.indexOf('book.html') !== -1;
@@ -112,6 +113,7 @@
 
     +     '<li><a href="' + TOOL + '"' + activeClass('interest-calculator') + '>Tools</a></li>'
     +     '<li><a href="' + HOME + '#resources">Resources</a></li>'
+    +     '<li><a href="' + CONTACT + '"' + activeClass('contact') + '>Contact</a></li>'
     +   '</ul>'
     +   navRight
     +   '<button class="jak-ham" aria-label="Open menu" aria-expanded="false">'
@@ -124,6 +126,7 @@
     +       '<li><a href="' + OMF + '"' + activeClass('one-more-friend') + '>One More Friend</a></li>'
     +       '<li><a href="' + TOOL + '">Tools</a></li>'
     +       '<li><a href="' + HOME + '#resources">Resources</a></li>'
+    +       '<li><a href="' + CONTACT + '">Contact</a></li>'
     +     '</ul>'
     +     '<a class="jak-drawer-cta" href="' + BOOK + '">Book a consultation ' + SVG_R + '</a>'
     +   '</div>'
