@@ -9,285 +9,188 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
 <link rel="icon" type="image/svg+xml" href="assets/JAKLifeLOGO.svg" />
 <style>
+  /* ══ TOKENS ══ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy:       #0B1F3A;
+    --navy-light: #1e3a5f;
+    --blue:       #3A86FF;
+    --teal:       #06D6A0;
+    --gold:       #F4A261;
+    --cream:      #FFF8EE;
+    --cream-dark: #F5EDD9;
+    --muted:      #5a6a7e;
+    --border:     rgba(11,31,58,0.10);
+    --error:      #E05252;
+    --max-w:      1360px;
+    --pad-x:      clamp(24px, 5vw, 96px);
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream); color: var(--navy);
+    overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    min-height: 100vh; display: flex; flex-direction: column;
+  }
 
-/* ══ TOKENS ══ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --navy:       #0B1F3A;
-  --navy-light: #1e3a5f;
-  --blue:       #3A86FF;
-  --teal:       #06D6A0;
-  --gold:       #F4A261;
-  --cream:      #FFF8EE;
-  --cream-dark: #F5EDD9;
-  --muted:      #5a6a7e;
-  --border:     rgba(11,31,58,0.10);
-  --error:      #E05252;
-  --max-w:      1360px;
-  --pad-x:      clamp(24px, 5vw, 96px);
-}
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'Inter', sans-serif;
-  background: var(--cream);
-  color: var(--navy);
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
+  /* ══ PAGE HEADER ══ */
+  .page-header { padding: clamp(48px,7vh,80px) var(--pad-x) clamp(32px,4vh,52px); max-width: var(--max-w); margin: 0 auto; width: 100%; }
+  .page-eyebrow { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+  .page-eyebrow-line { width: 36px; height: 2px; background: var(--gold); flex-shrink: 0; }
+  .page-eyebrow-text { font-size: 11px; font-weight: 800; letter-spacing: 0.24em; color: var(--navy); opacity: 0.5; text-transform: uppercase; }
+  .page-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(42px,4.8vw,72px); font-weight: 700; line-height: 1.05; color: var(--navy); letter-spacing: -0.01em; margin-bottom: 16px; }
+  .page-title em { font-style: normal; font-weight: 400; color: var(--blue); }
+  .page-subtitle { font-size: clamp(15px,1.4vw,17px); line-height: 1.65; color: var(--muted); max-width: 520px; }
 
-/* ══ PAGE HEADER ══ */
-.page-header {
-  padding: clamp(48px, 7vh, 80px) var(--pad-x) clamp(32px, 4vh, 52px);
-  max-width: var(--max-w);
-  margin: 0 auto;
-  width: 100%;
-}
-.page-eyebrow { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
-.page-eyebrow-line { width: 36px; height: 2px; background: var(--gold); flex-shrink: 0; }
-.page-eyebrow-text { font-size: 11px; font-weight: 800; letter-spacing: 0.24em; color: var(--navy); opacity: 0.5; text-transform: uppercase; }
-.page-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(42px, 4.8vw, 72px); font-weight: 700; line-height: 1.05; color: var(--navy); letter-spacing: -0.01em; margin-bottom: 16px; }
-.page-title em { font-style: normal; font-weight: 400; color: var(--blue); }
-.page-subtitle { font-size: clamp(15px, 1.4vw, 17px); line-height: 1.65; color: var(--muted); max-width: 520px; }
+  /* ══ CONTENT GRID ══ */
+  .content-grid {
+    display: grid; grid-template-columns: 1fr 400px; gap: 48px;
+    padding: 0 var(--pad-x) clamp(64px,8vh,100px);
+    max-width: var(--max-w); margin: 0 auto; width: 100%; flex: 1; align-items: start;
+  }
 
-/* ══ CONTENT GRID ══ */
-.content-grid {
-  display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 48px;
-  padding: 0 var(--pad-x) clamp(64px, 8vh, 100px);
-  max-width: var(--max-w);
-  margin: 0 auto;
-  width: 100%;
-  flex: 1;
-  align-items: start;
-}
+  /* ══ FORM CARD ══ */
+  .form-card { background: #fff; border: 1px solid var(--border); border-radius: 16px; padding: clamp(28px,4vw,52px); box-shadow: 0 4px 24px rgba(11,31,58,0.07); }
+  .form-section-label { font-size: 10px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: var(--navy); opacity: 0.4; margin-bottom: 22px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .field-full { margin-bottom: 20px; }
+  .field { display: flex; flex-direction: column; gap: 7px; }
+  .field-label { font-size: 11px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase; color: var(--navy); display: flex; align-items: center; gap: 4px; }
+  .req { color: var(--teal); font-size: 14px; line-height: 1; }
 
-/* ══ FORM CARD ══ */
-.form-card {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: clamp(28px, 4vw, 52px);
-  box-shadow: 0 4px 24px rgba(11,31,58,0.07);
-}
-.form-section-label {
-  font-size: 10px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--navy); opacity: 0.4; margin-bottom: 22px;
-  padding-bottom: 12px; border-bottom: 1px solid var(--border);
-}
+  /* inputs */
+  .field-input, .field-textarea {
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
+    color: var(--navy); background: var(--cream);
+    border: 1.5px solid var(--border); border-radius: 8px;
+    padding: 13px 16px; outline: none; width: 100%; -webkit-appearance: none;
+    transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
+  }
+  .field-input::placeholder, .field-textarea::placeholder { color: var(--muted); opacity: 0.5; font-weight: 400; }
+  .field-input:hover, .field-textarea:hover { border-color: rgba(58,134,255,0.35); }
+  .field-input:focus, .field-textarea:focus { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(58,134,255,0.10); }
+  .field-input.err, .field-textarea.err { border-color: var(--error); background: rgba(224,82,82,0.03); }
+  .field-input.err:focus { box-shadow: 0 0 0 3px rgba(224,82,82,0.10); }
+  .err-msg { font-size: 11px; font-weight: 600; color: var(--error); display: none; }
+  .err-msg.show { display: block; }
 
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-.field-full { margin-bottom: 20px; }
-.field { display: flex; flex-direction: column; gap: 7px; }
-.field-label { font-size: 11px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase; color: var(--navy); display: flex; align-items: center; gap: 4px; }
-.req { color: var(--teal); font-size: 14px; line-height: 1; }
+  /* ── phone row: country selector + number ── */
+  .phone-row { display: flex; gap: 0; border: 1.5px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--cream); transition: border-color 0.18s, box-shadow 0.18s; }
+  .phone-row:focus-within { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(58,134,255,0.10); }
+  .phone-row.err { border-color: var(--error); }
 
-.field-input,
-.field-textarea {
-  font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
-  color: var(--navy); background: var(--cream);
-  border: 1.5px solid var(--border); border-radius: 8px;
-  padding: 13px 16px; outline: none; width: 100%; -webkit-appearance: none;
-  transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
-}
-.field-input::placeholder, .field-textarea::placeholder { color: var(--muted); opacity: 0.5; font-weight: 400; }
-.field-input:hover, .field-textarea:hover { border-color: rgba(58,134,255,0.35); }
-.field-input:focus, .field-textarea:focus { border-color: var(--blue); background: #fff; box-shadow: 0 0 0 3px rgba(58,134,255,0.10); }
-.field-input.err, .field-textarea.err { border-color: var(--error); background: rgba(224,82,82,0.03); }
-.field-input.err:focus { box-shadow: 0 0 0 3px rgba(224,82,82,0.10); }
+  /* country selector */
+  .country-select-wrap { position: relative; flex-shrink: 0; border-right: 1.5px solid var(--border); }
+  .country-select {
+    appearance: none; -webkit-appearance: none;
+    background: var(--cream-dark);
+    border: none; outline: none; cursor: pointer;
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700;
+    color: var(--navy); padding: 0 32px 0 12px;
+    height: 100%; min-width: 92px;
+    transition: background 0.15s;
+  }
+  .country-select:focus { background: #e8edf5; }
+  /* custom dropdown arrow */
+  .country-select-wrap::after {
+    content: '';
+    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+    width: 0; height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--navy);
+    opacity: 0.5; pointer-events: none;
+  }
+  .phone-number-input {
+    flex: 1; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
+    color: var(--navy); background: transparent; border: none; outline: none; padding: 13px 14px;
+  }
+  .phone-number-input::placeholder { color: var(--muted); opacity: 0.5; font-weight: 400; }
 
-.err-msg { font-size: 11px; font-weight: 600; color: var(--error); display: none; }
-.err-msg.show { display: block; }
+  .field-textarea { resize: vertical; min-height: 140px; line-height: 1.65; }
+  .form-divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
 
-/* ══ PHONE — COUNTRY PICKER ══ */
-.phone-wrap {
-  display: flex;
-  border: 1.5px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--cream);
-  transition: border-color 0.18s, box-shadow 0.18s;
-  position: relative;
-}
-.phone-wrap:focus-within {
-  border-color: var(--blue);
-  box-shadow: 0 0 0 3px rgba(58,134,255,0.10);
-}
-.phone-wrap.err { border-color: var(--error) !important; }
-.phone-wrap.err:focus-within { box-shadow: 0 0 0 3px rgba(224,82,82,0.10) !important; }
+  /* submit */
+  .btn-submit {
+    width: 100%; background: var(--navy); color: #fff; border: none;
+    border-radius: 8px; padding: 16px 28px;
+    font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    gap: 14px; margin-top: 28px; position: relative; overflow: hidden;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  }
+  .btn-submit:hover { background: var(--navy-light); transform: translateY(-1px); box-shadow: 0 10px 28px rgba(11,31,58,0.22); }
+  .btn-submit svg { width: 15px; height: 15px; }
+  .btn-submit.loading { pointer-events: none; opacity: 0.8; }
+  .btn-submit.loading .btn-label { opacity: 0; }
+  .spinner { position: absolute; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+  .btn-submit.loading .spinner { display: block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-.country-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 0 10px 0 14px;
-  background: var(--cream-dark);
-  border: none;
-  border-right: 1.5px solid var(--border);
-  border-radius: 0;
-  outline: none;
-  cursor: pointer;
-  flex-shrink: 0;
-  white-space: nowrap;
-  font-family: 'Inter', sans-serif;
-  transition: background 0.15s;
-  align-self: stretch;
-}
-.country-btn:hover { background: #e6dcc8; }
-.country-flag  { font-size: 18px; line-height: 1; display: block; }
-.country-dial  { font-size: 13px; font-weight: 700; color: var(--navy); opacity: 0.85; }
-.country-caret {
-  width: 8px; height: 8px; flex-shrink: 0; opacity: 0.4;
-  transition: transform 0.18s;
-}
-.country-btn[aria-expanded="true"] .country-caret { transform: rotate(180deg); }
+  /* banners */
+  .form-banner { display: none; align-items: flex-start; gap: 14px; padding: 16px 18px; border-radius: 8px; margin-top: 16px; font-size: 13px; font-weight: 500; line-height: 1.55; }
+  .form-banner.ok   { background: rgba(6,214,160,0.08); border: 1px solid rgba(6,214,160,0.25); color: #047a5a; }
+  .form-banner.fail { background: rgba(224,82,82,0.06); border: 1px solid rgba(224,82,82,0.22); color: var(--error); }
+  .form-banner.show { display: flex; }
+  .form-banner svg  { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
+  .form-note { font-size: 11px; color: var(--muted); margin-top: 14px; line-height: 1.6; text-align: center; }
 
-/* Dropdown — positioned relative to .phone-field-wrap, not .phone-wrap */
-.phone-field-wrap {
-  position: relative;
-}
+  /* ══ SIDEBAR ══ */
+  .sidebar { display: flex; flex-direction: column; gap: 18px; position: sticky; top: 108px; }
+  .info-card { background: var(--navy); border-radius: 14px; padding: 28px; color: #fff; position: relative; overflow: hidden; }
+  .info-card::after { content: ''; position: absolute; top: -50px; right: -50px; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(6,214,160,0.12) 0%, transparent 70%); pointer-events: none; }
+  .info-card-head { font-size: 10px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 20px; }
+  .info-item { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .info-item:first-of-type { padding-top: 0; }
+  .info-item:last-of-type  { border-bottom: none; padding-bottom: 0; }
+  .info-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .info-icon.teal { background: rgba(6,214,160,0.15); }
+  .info-icon.blue { background: rgba(58,134,255,0.15); }
+  .info-icon.gold { background: rgba(244,162,97,0.15); }
+  .info-icon svg { width: 16px; height: 16px; }
+  .info-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 3px; }
+  .info-val { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.85); line-height: 1.5; }
+  .info-val a { color: var(--teal); text-decoration: none; }
+  .info-val a:hover { opacity: 0.8; }
+  .response-card { background: linear-gradient(135deg, var(--blue) 0%, #2a6fd4 100%); border-radius: 14px; padding: 22px; color: #fff; display: flex; align-items: center; gap: 16px; }
+  .response-icon { width: 42px; height: 42px; border-radius: 10px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .response-icon svg { width: 20px; height: 20px; }
+  .response-lbl { font-size: 10px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 3px; }
+  .response-val { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; line-height: 1.2; }
+  .trust-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 24px; box-shadow: 0 4px 16px rgba(11,31,58,0.05); }
+  .trust-head { font-size: 10px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: var(--navy); opacity: 0.4; margin-bottom: 16px; }
+  .trust-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
+  .trust-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .trust-item:first-child { padding-top: 0; }
+  .trust-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+  .trust-text { font-size: 12px; font-weight: 500; color: var(--navy); line-height: 1.45; }
 
-.country-dropdown {
-  position: absolute; top: calc(100% + 6px); left: 0;
-  width: 290px; background: #fff;
-  border: 1px solid var(--border); border-radius: 10px;
-  box-shadow: 0 18px 48px rgba(11,31,58,0.14), 0 4px 10px rgba(11,31,58,0.06);
-  z-index: 9999; overflow: hidden;
-  opacity: 0; pointer-events: none;
-  transform: translateY(-4px);
-  transition: opacity 0.16s, transform 0.16s;
-}
-.country-dropdown.open { opacity: 1; pointer-events: all; transform: translateY(0); display: block; }
+  /* ══ ANIMATIONS ══ */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+  .anim-1 { animation: fadeUp 0.55s ease both 0.06s; }
+  .anim-2 { animation: fadeUp 0.55s ease both 0.16s; }
+  .anim-3 { animation: fadeUp 0.55s ease both 0.26s; }
+  .anim-4 { animation: fadeUp 0.55s ease both 0.36s; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
-.country-search-wrap { padding: 10px 10px 8px; border-bottom: 1px solid var(--border); }
-.country-search {
-  width: 100%; padding: 8px 12px;
-  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500;
-  color: var(--navy); background: var(--cream);
-  border: 1.5px solid var(--border); border-radius: 7px; outline: none;
-  transition: border-color 0.15s;
-}
-.country-search:focus { border-color: var(--blue); }
-.country-search::placeholder { color: var(--muted); opacity: 0.55; }
-
-.country-list { max-height: 230px; overflow-y: auto; padding: 5px 0; }
-.country-list::-webkit-scrollbar { width: 4px; }
-.country-list::-webkit-scrollbar-thumb { background: rgba(11,31,58,0.12); border-radius: 4px; }
-
-.country-option {
-  display: flex; align-items: center; gap: 10px;
-  padding: 8px 13px; cursor: pointer;
-  font-size: 13px; color: var(--navy);
-  transition: background 0.1s;
-}
-.country-option:hover   { background: rgba(58,134,255,0.06); }
-.country-option.active  { background: rgba(6,214,160,0.08); }
-.co-flag  { font-size: 17px; flex-shrink: 0; }
-.co-name  { flex: 1; font-weight: 500; }
-.co-code  { font-size: 12px; font-weight: 700; color: var(--muted); }
-.country-empty { padding: 18px 13px; text-align: center; font-size: 13px; color: var(--muted); }
-
-.phone-input {
-  flex: 1; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500;
-  color: var(--navy); background: transparent; border: none; outline: none; padding: 13px 14px;
-}
-.phone-input::placeholder { color: var(--muted); opacity: 0.45; font-weight: 400; }
-
-/* textarea */
-.field-textarea { resize: vertical; min-height: 140px; line-height: 1.65; }
-.form-divider { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
-
-/* submit */
-.btn-submit {
-  width: 100%; background: var(--navy); color: #fff; border: none;
-  border-radius: 8px; padding: 16px 28px;
-  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700;
-  letter-spacing: 0.10em; text-transform: uppercase;
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  gap: 14px; margin-top: 28px; position: relative; overflow: hidden;
-  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
-}
-.btn-submit:hover { background: var(--navy-light); transform: translateY(-1px); box-shadow: 0 10px 28px rgba(11,31,58,0.22); }
-.btn-submit svg { width: 15px; height: 15px; }
-.btn-submit.loading { pointer-events: none; opacity: 0.8; }
-.btn-submit.loading .btn-label { opacity: 0; }
-.spinner {
-  position: absolute; width: 18px; height: 18px;
-  border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
-  border-radius: 50%; animation: spin 0.7s linear infinite; display: none;
-}
-.btn-submit.loading .spinner { display: block; }
-@keyframes spin { to { transform: rotate(360deg); } }
-
-.form-banner {
-  display: none; align-items: flex-start; gap: 14px;
-  padding: 16px 18px; border-radius: 8px; margin-top: 16px;
-  font-size: 13px; font-weight: 500; line-height: 1.55;
-}
-.form-banner.ok   { background: rgba(6,214,160,0.08); border: 1px solid rgba(6,214,160,0.25); color: #047a5a; }
-.form-banner.fail { background: rgba(224,82,82,0.06); border: 1px solid rgba(224,82,82,0.22); color: var(--error); }
-.form-banner.show { display: flex; }
-.form-banner svg  { width: 18px; height: 18px; flex-shrink: 0; margin-top: 1px; }
-.form-note { font-size: 11px; color: var(--muted); margin-top: 14px; line-height: 1.6; text-align: center; }
-
-/* ══ SIDEBAR ══ */
-.sidebar { display: flex; flex-direction: column; gap: 18px; position: sticky; top: 108px; }
-.info-card { background: var(--navy); border-radius: 14px; padding: 28px; color: #fff; position: relative; overflow: hidden; }
-.info-card::after { content: ''; position: absolute; top: -50px; right: -50px; width: 180px; height: 180px; border-radius: 50%; background: radial-gradient(circle, rgba(6,214,160,0.12) 0%, transparent 70%); pointer-events: none; }
-.info-card-head { font-size: 10px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 20px; }
-.info-item { display: flex; align-items: flex-start; gap: 14px; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
-.info-item:first-of-type { padding-top: 0; }
-.info-item:last-of-type  { border-bottom: none; padding-bottom: 0; }
-.info-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.info-icon.teal { background: rgba(6,214,160,0.15); }
-.info-icon.blue { background: rgba(58,134,255,0.15); }
-.info-icon.gold { background: rgba(244,162,97,0.15); }
-.info-icon svg  { width: 16px; height: 16px; }
-.info-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 3px; }
-.info-val { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.85); line-height: 1.5; }
-.info-val a { color: var(--teal); text-decoration: none; transition: opacity 0.15s; }
-.info-val a:hover { opacity: 0.8; }
-
-.response-card { background: linear-gradient(135deg, var(--blue) 0%, #2a6fd4 100%); border-radius: 14px; padding: 22px; color: #fff; display: flex; align-items: center; gap: 16px; }
-.response-icon { width: 42px; height: 42px; border-radius: 10px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.response-icon svg { width: 20px; height: 20px; }
-.response-lbl { font-size: 10px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 3px; }
-.response-val { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; line-height: 1.2; }
-
-.trust-card { background: #fff; border: 1px solid var(--border); border-radius: 14px; padding: 24px; box-shadow: 0 4px 16px rgba(11,31,58,0.05); }
-.trust-head { font-size: 10px; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: var(--navy); opacity: 0.4; margin-bottom: 16px; }
-.trust-item { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.trust-item:last-child  { border-bottom: none; padding-bottom: 0; }
-.trust-item:first-child { padding-top: 0; }
-.trust-dot  { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
-.trust-text { font-size: 12px; font-weight: 500; color: var(--navy); line-height: 1.45; }
-
-@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-.anim-1 { animation: fadeUp 0.55s ease both 0.06s; }
-.anim-2 { animation: fadeUp 0.55s ease both 0.16s; }
-.anim-3 { animation: fadeUp 0.55s ease both 0.26s; }
-.anim-4 { animation: fadeUp 0.55s ease both 0.36s; }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
-
-@media (max-width: 1000px) {
-  .content-grid { grid-template-columns: 1fr; gap: 32px; }
-  .sidebar { position: relative; top: 0; display: grid; grid-template-columns: 1fr 1fr; }
-  .info-card { grid-column: 1 / -1; }
-}
-@media (max-width: 640px) {
-  .field-row { grid-template-columns: 1fr; }
-  .sidebar   { grid-template-columns: 1fr; }
-  .form-card { padding: 22px 18px; }
-  .country-dropdown { width: calc(100vw - 80px); max-width: 290px; }
-}
-@media (max-width: 520px) { :root { --pad-x: 20px; } }
+  /* ══ RESPONSIVE ══ */
+  @media (max-width: 1000px) {
+    .content-grid { grid-template-columns: 1fr; gap: 32px; }
+    .sidebar { position: relative; top: 0; display: grid; grid-template-columns: 1fr 1fr; }
+    .info-card { grid-column: 1 / -1; }
+  }
+  @media (max-width: 640px) {
+    .field-row { grid-template-columns: 1fr; }
+    .sidebar   { grid-template-columns: 1fr; }
+    .form-card { padding: 22px 18px; }
+  }
+  @media (max-width: 520px) { :root { --pad-x: 20px; } }
 </style>
 </head>
 <body data-jak-depth="0" data-jak-page="contact">
 
+<!-- ══════════ PAGE HEADER ══════════ -->
 <div class="page-header">
   <div class="page-eyebrow anim-1">
     <div class="page-eyebrow-line"></div>
@@ -300,13 +203,16 @@ body {
   </p>
 </div>
 
+<!-- ══════════ MAIN GRID ══════════ -->
 <div class="content-grid anim-4">
 
+  <!-- ── FORM ── -->
   <div class="form-card">
     <p class="form-section-label">Your details</p>
 
     <form id="contact-form" novalidate>
 
+      <!-- Name + Email -->
       <div class="field-row">
         <div class="field">
           <label class="field-label" for="name">Name <span class="req">*</span></label>
@@ -320,34 +226,175 @@ body {
         </div>
       </div>
 
+      <!-- Phone with dynamic country code -->
       <div class="field-full">
         <div class="field">
-          <label class="field-label" for="phone">Phone number <span class="req">*</span></label>
-          <div class="phone-field-wrap">
-            <div class="phone-wrap" id="phone-wrap">
-
-              <button type="button" class="country-btn" id="country-btn" aria-haspopup="listbox" aria-expanded="false" aria-label="Select country code">
-                <span class="country-flag" id="sel-flag">🇮🇳</span>
-                <span class="country-dial" id="sel-dial">+91</span>
-                <svg class="country-caret" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                  <polyline points="1,1 5,5 9,1"/>
-                </svg>
-              </button>
-
-              <input class="phone-input" type="tel" id="phone" name="phone" placeholder="98765 43210" autocomplete="tel" required />
+          <label class="field-label" for="phone-number">Phone number <span class="req">*</span></label>
+          <div class="phone-row" id="phone-wrap">
+            <div class="country-select-wrap">
+              <select class="country-select" id="country-code" aria-label="Country code">
+                <!-- Top picks first -->
+                <option value="+91"  data-flag="🇮🇳" selected>🇮🇳 +91</option>
+                <option value="+1"   data-flag="🇺🇸">🇺🇸 +1</option>
+                <option value="+44"  data-flag="🇬🇧">🇬🇧 +44</option>
+                <option value="+61"  data-flag="🇦🇺">🇦🇺 +61</option>
+                <option value="+971" data-flag="🇦🇪">🇦🇪 +971</option>
+                <option value="+65"  data-flag="🇸🇬">🇸🇬 +65</option>
+                <option value="+60"  data-flag="🇲🇾">🇲🇾 +60</option>
+                <option disabled>──────────</option>
+                <!-- Full alphabetical list -->
+                <option value="+93" >🇦🇫 +93  Afghanistan</option>
+                <option value="+355">🇦🇱 +355 Albania</option>
+                <option value="+213">🇩🇿 +213 Algeria</option>
+                <option value="+376">🇦🇩 +376 Andorra</option>
+                <option value="+244">🇦🇴 +244 Angola</option>
+                <option value="+54" >🇦🇷 +54  Argentina</option>
+                <option value="+374">🇦🇲 +374 Armenia</option>
+                <option value="+43" >🇦🇹 +43  Austria</option>
+                <option value="+994">🇦🇿 +994 Azerbaijan</option>
+                <option value="+973">🇧🇭 +973 Bahrain</option>
+                <option value="+880">🇧🇩 +880 Bangladesh</option>
+                <option value="+32" >🇧🇪 +32  Belgium</option>
+                <option value="+501">🇧🇿 +501 Belize</option>
+                <option value="+229">🇧🇯 +229 Benin</option>
+                <option value="+975">🇧🇹 +975 Bhutan</option>
+                <option value="+591">🇧🇴 +591 Bolivia</option>
+                <option value="+387">🇧🇦 +387 Bosnia</option>
+                <option value="+267">🇧🇼 +267 Botswana</option>
+                <option value="+55" >🇧🇷 +55  Brazil</option>
+                <option value="+673">🇧🇳 +673 Brunei</option>
+                <option value="+359">🇧🇬 +359 Bulgaria</option>
+                <option value="+226">🇧🇫 +226 Burkina Faso</option>
+                <option value="+855">🇰🇭 +855 Cambodia</option>
+                <option value="+237">🇨🇲 +237 Cameroon</option>
+                <option value="+1"  >🇨🇦 +1   Canada</option>
+                <option value="+56" >🇨🇱 +56  Chile</option>
+                <option value="+86" >🇨🇳 +86  China</option>
+                <option value="+57" >🇨🇴 +57  Colombia</option>
+                <option value="+506">🇨🇷 +506 Costa Rica</option>
+                <option value="+385">🇭🇷 +385 Croatia</option>
+                <option value="+53" >🇨🇺 +53  Cuba</option>
+                <option value="+357">🇨🇾 +357 Cyprus</option>
+                <option value="+420">🇨🇿 +420 Czech Republic</option>
+                <option value="+45" >🇩🇰 +45  Denmark</option>
+                <option value="+593">🇪🇨 +593 Ecuador</option>
+                <option value="+20" >🇪🇬 +20  Egypt</option>
+                <option value="+503">🇸🇻 +503 El Salvador</option>
+                <option value="+372">🇪🇪 +372 Estonia</option>
+                <option value="+251">🇪🇹 +251 Ethiopia</option>
+                <option value="+679">🇫🇯 +679 Fiji</option>
+                <option value="+358">🇫🇮 +358 Finland</option>
+                <option value="+33" >🇫🇷 +33  France</option>
+                <option value="+241">🇬🇦 +241 Gabon</option>
+                <option value="+995">🇬🇪 +995 Georgia</option>
+                <option value="+49" >🇩🇪 +49  Germany</option>
+                <option value="+233">🇬🇭 +233 Ghana</option>
+                <option value="+30" >🇬🇷 +30  Greece</option>
+                <option value="+502">🇬🇹 +502 Guatemala</option>
+                <option value="+224">🇬🇳 +224 Guinea</option>
+                <option value="+509">🇭🇹 +509 Haiti</option>
+                <option value="+504">🇭🇳 +504 Honduras</option>
+                <option value="+852">🇭🇰 +852 Hong Kong</option>
+                <option value="+36" >🇭🇺 +36  Hungary</option>
+                <option value="+354">🇮🇸 +354 Iceland</option>
+                <option value="+62" >🇮🇩 +62  Indonesia</option>
+                <option value="+98" >🇮🇷 +98  Iran</option>
+                <option value="+964">🇮🇶 +964 Iraq</option>
+                <option value="+353">🇮🇪 +353 Ireland</option>
+                <option value="+972">🇮🇱 +972 Israel</option>
+                <option value="+39" >🇮🇹 +39  Italy</option>
+                <option value="+225">🇨🇮 +225 Ivory Coast</option>
+                <option value="+1"  >🇯🇲 +1   Jamaica</option>
+                <option value="+81" >🇯🇵 +81  Japan</option>
+                <option value="+962">🇯🇴 +962 Jordan</option>
+                <option value="+7"  >🇰🇿 +7   Kazakhstan</option>
+                <option value="+254">🇰🇪 +254 Kenya</option>
+                <option value="+965">🇰🇼 +965 Kuwait</option>
+                <option value="+996">🇰🇬 +996 Kyrgyzstan</option>
+                <option value="+856">🇱🇦 +856 Laos</option>
+                <option value="+371">🇱🇻 +371 Latvia</option>
+                <option value="+961">🇱🇧 +961 Lebanon</option>
+                <option value="+231">🇱🇷 +231 Liberia</option>
+                <option value="+218">🇱🇾 +218 Libya</option>
+                <option value="+370">🇱🇹 +370 Lithuania</option>
+                <option value="+352">🇱🇺 +352 Luxembourg</option>
+                <option value="+853">🇲🇴 +853 Macau</option>
+                <option value="+261">🇲🇬 +261 Madagascar</option>
+                <option value="+265">🇲🇼 +265 Malawi</option>
+                <option value="+960">🇲🇻 +960 Maldives</option>
+                <option value="+223">🇲🇱 +223 Mali</option>
+                <option value="+356">🇲🇹 +356 Malta</option>
+                <option value="+222">🇲🇷 +222 Mauritania</option>
+                <option value="+230">🇲🇺 +230 Mauritius</option>
+                <option value="+52" >🇲🇽 +52  Mexico</option>
+                <option value="+373">🇲🇩 +373 Moldova</option>
+                <option value="+976">🇲🇳 +976 Mongolia</option>
+                <option value="+212">🇲🇦 +212 Morocco</option>
+                <option value="+258">🇲🇿 +258 Mozambique</option>
+                <option value="+95" >🇲🇲 +95  Myanmar</option>
+                <option value="+264">🇳🇦 +264 Namibia</option>
+                <option value="+977">🇳🇵 +977 Nepal</option>
+                <option value="+31" >🇳🇱 +31  Netherlands</option>
+                <option value="+64" >🇳🇿 +64  New Zealand</option>
+                <option value="+505">🇳🇮 +505 Nicaragua</option>
+                <option value="+227">🇳🇪 +227 Niger</option>
+                <option value="+234">🇳🇬 +234 Nigeria</option>
+                <option value="+47" >🇳🇴 +47  Norway</option>
+                <option value="+968">🇴🇲 +968 Oman</option>
+                <option value="+92" >🇵🇰 +92  Pakistan</option>
+                <option value="+507">🇵🇦 +507 Panama</option>
+                <option value="+675">🇵🇬 +675 Papua New Guinea</option>
+                <option value="+595">🇵🇾 +595 Paraguay</option>
+                <option value="+51" >🇵🇪 +51  Peru</option>
+                <option value="+63" >🇵🇭 +63  Philippines</option>
+                <option value="+48" >🇵🇱 +48  Poland</option>
+                <option value="+351">🇵🇹 +351 Portugal</option>
+                <option value="+974">🇶🇦 +974 Qatar</option>
+                <option value="+40" >🇷🇴 +40  Romania</option>
+                <option value="+7"  >🇷🇺 +7   Russia</option>
+                <option value="+250">🇷🇼 +250 Rwanda</option>
+                <option value="+966">🇸🇦 +966 Saudi Arabia</option>
+                <option value="+221">🇸🇳 +221 Senegal</option>
+                <option value="+381">🇷🇸 +381 Serbia</option>
+                <option value="+232">🇸🇱 +232 Sierra Leone</option>
+                <option value="+421">🇸🇰 +421 Slovakia</option>
+                <option value="+386">🇸🇮 +386 Slovenia</option>
+                <option value="+252">🇸🇴 +252 Somalia</option>
+                <option value="+27" >🇿🇦 +27  South Africa</option>
+                <option value="+82" >🇰🇷 +82  South Korea</option>
+                <option value="+211">🇸🇸 +211 South Sudan</option>
+                <option value="+34" >🇪🇸 +34  Spain</option>
+                <option value="+94" >🇱🇰 +94  Sri Lanka</option>
+                <option value="+249">🇸🇩 +249 Sudan</option>
+                <option value="+46" >🇸🇪 +46  Sweden</option>
+                <option value="+41" >🇨🇭 +41  Switzerland</option>
+                <option value="+963">🇸🇾 +963 Syria</option>
+                <option value="+886">🇹🇼 +886 Taiwan</option>
+                <option value="+992">🇹🇯 +992 Tajikistan</option>
+                <option value="+255">🇹🇿 +255 Tanzania</option>
+                <option value="+66" >🇹🇭 +66  Thailand</option>
+                <option value="+228">🇹🇬 +228 Togo</option>
+                <option value="+216">🇹🇳 +216 Tunisia</option>
+                <option value="+90" >🇹🇷 +90  Turkey</option>
+                <option value="+993">🇹🇲 +993 Turkmenistan</option>
+                <option value="+256">🇺🇬 +256 Uganda</option>
+                <option value="+380">🇺🇦 +380 Ukraine</option>
+                <option value="+598">🇺🇾 +598 Uruguay</option>
+                <option value="+998">🇺🇿 +998 Uzbekistan</option>
+                <option value="+58" >🇻🇪 +58  Venezuela</option>
+                <option value="+84" >🇻🇳 +84  Vietnam</option>
+                <option value="+967">🇾🇪 +967 Yemen</option>
+                <option value="+260">🇿🇲 +260 Zambia</option>
+                <option value="+263">🇿🇼 +263 Zimbabwe</option>
+              </select>
             </div>
-
-            <div class="country-dropdown" id="country-dropdown" role="listbox" aria-label="Country codes">
-              <div class="country-search-wrap">
-                <input type="text" class="country-search" id="country-search" placeholder="Search country or code…" autocomplete="off" spellcheck="false" />
-              </div>
-              <div class="country-list" id="country-list"></div>
-            </div>
+            <input class="phone-number-input" type="tel" id="phone-number" placeholder="00000 00000" autocomplete="tel-national" />
           </div>
           <span class="err-msg" id="phone-err">Please enter a valid phone number.</span>
         </div>
       </div>
 
+      <!-- Address -->
       <div class="field-full">
         <div class="field">
           <label class="field-label" for="address">Address <span class="req">*</span></label>
@@ -359,6 +406,7 @@ body {
       <hr class="form-divider" />
       <p class="form-section-label" style="margin-bottom:20px;">Your message</p>
 
+      <!-- Comments -->
       <div class="field-full">
         <div class="field">
           <label class="field-label" for="comments">Comments</label>
@@ -366,6 +414,7 @@ body {
         </div>
       </div>
 
+      <!-- Submit -->
       <button type="submit" class="btn-submit" id="submit-btn">
         <span class="btn-label" style="display:flex;align-items:center;gap:14px;">
           Send message
@@ -376,6 +425,7 @@ body {
         <div class="spinner"></div>
       </button>
 
+      <!-- Success -->
       <div class="form-banner ok" id="success-banner">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
@@ -386,6 +436,7 @@ body {
         </div>
       </div>
 
+      <!-- Error -->
       <div class="form-banner fail" id="error-banner">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
@@ -396,13 +447,11 @@ body {
         </div>
       </div>
 
-      <p class="form-note">
-        Your information is kept strictly confidential and will never be shared with third parties.
-      </p>
-
+      <p class="form-note">Your information is kept strictly confidential and will never be shared with third parties.</p>
     </form>
   </div>
 
+  <!-- ── SIDEBAR ── -->
   <aside class="sidebar">
     <div class="info-card">
       <p class="info-card-head">Contact information</p>
@@ -469,282 +518,128 @@ body {
   </aside>
 </div>
 
-<!-- Invisible sink iframe — catches Google Forms redirect so page doesn't navigate -->
-<iframe name="gf-sink" style="display:none;position:absolute;width:0;height:0;border:0;" aria-hidden="true"></iframe>
-
 <script src="./components.js"></script>
 <script>
-/* ════════════════════════════════════════════════════════
-   COUNTRY DATA
-════════════════════════════════════════════════════════ */
-const COUNTRIES = [
-  { code:'IN', flag:'🇮🇳', name:'India',          dial:'+91'  },
-  { code:'US', flag:'🇺🇸', name:'United States',  dial:'+1'   },
-  { code:'GB', flag:'🇬🇧', name:'United Kingdom', dial:'+44'  },
-  { code:'AU', flag:'🇦🇺', name:'Australia',      dial:'+61'  },
-  { code:'CA', flag:'🇨🇦', name:'Canada',         dial:'+1'   },
-  { code:'SG', flag:'🇸🇬', name:'Singapore',      dial:'+65'  },
-  { code:'AE', flag:'🇦🇪', name:'UAE',            dial:'+971' },
-  { code:'SA', flag:'🇸🇦', name:'Saudi Arabia',   dial:'+966' },
-  { code:'MY', flag:'🇲🇾', name:'Malaysia',       dial:'+60'  },
-  { code:'QA', flag:'🇶🇦', name:'Qatar',          dial:'+974' },
-  { code:'KW', flag:'🇰🇼', name:'Kuwait',         dial:'+965' },
-  { code:'BH', flag:'🇧🇭', name:'Bahrain',        dial:'+973' },
-  { code:'OM', flag:'🇴🇲', name:'Oman',           dial:'+968' },
-  { code:'NZ', flag:'🇳🇿', name:'New Zealand',    dial:'+64'  },
-  { code:'ZA', flag:'🇿🇦', name:'South Africa',   dial:'+27'  },
-  { code:'NG', flag:'🇳🇬', name:'Nigeria',        dial:'+234' },
-  { code:'KE', flag:'🇰🇪', name:'Kenya',          dial:'+254' },
-  { code:'GH', flag:'🇬🇭', name:'Ghana',          dial:'+233' },
-  { code:'PH', flag:'🇵🇭', name:'Philippines',    dial:'+63'  },
-  { code:'PK', flag:'🇵🇰', name:'Pakistan',       dial:'+92'  },
-  { code:'BD', flag:'🇧🇩', name:'Bangladesh',     dial:'+880' },
-  { code:'LK', flag:'🇱🇰', name:'Sri Lanka',      dial:'+94'  },
-  { code:'NP', flag:'🇳🇵', name:'Nepal',          dial:'+977' },
-  { code:'DE', flag:'🇩🇪', name:'Germany',        dial:'+49'  },
-  { code:'FR', flag:'🇫🇷', name:'France',         dial:'+33'  },
-  { code:'IT', flag:'🇮🇹', name:'Italy',          dial:'+39'  },
-  { code:'ES', flag:'🇪🇸', name:'Spain',          dial:'+34'  },
-  { code:'NL', flag:'🇳🇱', name:'Netherlands',    dial:'+31'  },
-  { code:'SE', flag:'🇸🇪', name:'Sweden',         dial:'+46'  },
-  { code:'NO', flag:'🇳🇴', name:'Norway',         dial:'+47'  },
-  { code:'CH', flag:'🇨🇭', name:'Switzerland',    dial:'+41'  },
-  { code:'JP', flag:'🇯🇵', name:'Japan',          dial:'+81'  },
-  { code:'KR', flag:'🇰🇷', name:'South Korea',    dial:'+82'  },
-  { code:'CN', flag:'🇨🇳', name:'China',          dial:'+86'  },
-  { code:'HK', flag:'🇭🇰', name:'Hong Kong',      dial:'+852' },
-  { code:'TH', flag:'🇹🇭', name:'Thailand',       dial:'+66'  },
-  { code:'ID', flag:'🇮🇩', name:'Indonesia',      dial:'+62'  },
-  { code:'VN', flag:'🇻🇳', name:'Vietnam',        dial:'+84'  },
-  { code:'TR', flag:'🇹🇷', name:'Turkey',         dial:'+90'  },
-  { code:'EG', flag:'🇪🇬', name:'Egypt',          dial:'+20'  },
-  { code:'IL', flag:'🇮🇱', name:'Israel',         dial:'+972' },
-  { code:'IR', flag:'🇮🇷', name:'Iran',           dial:'+98'  },
-  { code:'MX', flag:'🇲🇽', name:'Mexico',         dial:'+52'  },
-  { code:'BR', flag:'🇧🇷', name:'Brazil',         dial:'+55'  },
-  { code:'AR', flag:'🇦🇷', name:'Argentina',      dial:'+54'  },
-  { code:'CO', flag:'🇨🇴', name:'Colombia',       dial:'+57'  },
-  { code:'RU', flag:'🇷🇺', name:'Russia',         dial:'+7'   },
-];
+    /* ══════════════════════════════════════════════════════════════
+    MAILTO APPROACH
+    Collects all form inputs, builds a pre-filled email, and
+    opens the visitor's own email client (Gmail, Outlook, Apple
+    Mail, etc.) with everything ready to send.
 
-/* ── DOM refs ── */
-const countryBtn  = document.getElementById('country-btn');
-const dropdown    = document.getElementById('country-dropdown');
-const searchInput = document.getElementById('country-search');
-const listEl      = document.getElementById('country-list');
-const selFlag     = document.getElementById('sel-flag');
-const selDial     = document.getElementById('sel-dial');
-const phoneInput  = document.getElementById('phone');
+    YOUR_EMAIL below is the only thing to set — change it to the
+    address you want enquiries delivered to.
+    ══════════════════════════════════════════════════════════════ */
 
-let current = COUNTRIES[0]; // default India
+    var YOUR_EMAIL = 'jakworkstudio@gmail.com'; 
 
-/* ── Render list ── */
-function renderList(q) {
-  q = (q || '').toLowerCase().trim();
-  const filtered = q
-    ? COUNTRIES.filter(c => c.name.toLowerCase().includes(q) || c.dial.includes(q) || c.code.toLowerCase().includes(q))
-    : COUNTRIES;
+    /* ── Validation rules ── */
+    var FIELDS = [
+    { id: 'name',         errId: 'name-err',    wrapId: null,         validate: function(v){ return v.trim().length >= 2; } },
+    { id: 'email',        errId: 'email-err',   wrapId: null,         validate: function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); } },
+    { id: 'phone-number', errId: 'phone-err',   wrapId: 'phone-wrap', validate: function(v){ return v.replace(/\D/g,'').length >= 5; } },
+    { id: 'address',      errId: 'address-err', wrapId: null,         validate: function(v){ return v.trim().length >= 5; } },
+    ];
 
-  listEl.innerHTML = filtered.length
-    ? filtered.map(c =>
-        '<div class="country-option' + (c.code === current.code ? ' active' : '') + '" data-code="' + c.code + '" role="option" aria-selected="' + (c.code === current.code) + '">' +
-          '<span class="co-flag">' + c.flag + '</span>' +
-          '<span class="co-name">' + c.name + '</span>' +
-          '<span class="co-code">' + c.dial + '</span>' +
-        '</div>'
-      ).join('')
-    : '<div class="country-empty">No results for "' + q + '"</div>';
-}
+    function validateField(def) {
+    var el   = document.getElementById(def.id);
+    var err  = document.getElementById(def.errId);
+    var wrap = def.wrapId ? document.getElementById(def.wrapId) : null;
+    var ok   = def.validate(el.value);
+    (wrap || el).classList.toggle('err', !ok);
+    err.classList.toggle('show', !ok);
+    return ok;
+    }
 
-/* ── Select ── */
-function pick(c) {
-  current = c;
-  selFlag.textContent = c.flag;
-  selDial.textContent = c.dial;
-  close();
-  phoneInput.value = '';
-  phoneInput.focus();
-}
+    /* Real-time validation */
+    FIELDS.forEach(function(def) {
+    var el = document.getElementById(def.id);
+    el.addEventListener('blur', function() { validateField(def); });
+    el.addEventListener('input', function() {
+        var tgt = def.wrapId ? document.getElementById(def.wrapId) : el;
+        if (tgt.classList.contains('err')) validateField(def);
+    });
+    });
 
-/* ── Open / close ── */
-function open() {
-  dropdown.classList.add('open');
-  countryBtn.setAttribute('aria-expanded', 'true');
-  searchInput.value = '';
-  renderList('');
-  setTimeout(() => {
-    searchInput.focus();
-    const active = listEl.querySelector('.active');
-    if (active) active.scrollIntoView({ block: 'nearest' });
-  }, 20);
-}
+    /* ── Submit ── */
+    var form       = document.getElementById('contact-form');
+    var submitBtn  = document.getElementById('submit-btn');
+    var successBan = document.getElementById('success-banner');
+    var errorBan   = document.getElementById('error-banner');
 
-function close() {
-  dropdown.classList.remove('open');
-  countryBtn.setAttribute('aria-expanded', 'false');
-}
+    form.addEventListener('submit', function(e) {
+    e.preventDefault();
 
-function isOpen() { return dropdown.classList.contains('open'); }
+    /* Validate all */
+    var valid = true;
+    FIELDS.forEach(function(def) { if (!validateField(def)) valid = false; });
+    if (!valid) {
+        var firstErr = form.querySelector('.err');
+        if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+    }
 
-/* ── Events ── */
-countryBtn.addEventListener('click', function(e) {
-  e.stopPropagation();
-  isOpen() ? close() : open();
-});
+    /* Collect values */
+    var name     = document.getElementById('name').value.trim();
+    var email    = document.getElementById('email').value.trim();
+    var code     = document.getElementById('country-code').value;
+    var phone    = code + ' ' + document.getElementById('phone-number').value.trim();
+    var address  = document.getElementById('address').value.trim();
+    var comments = document.getElementById('comments').value.trim() || '(no message provided)';
 
-searchInput.addEventListener('input', function() { renderList(this.value); });
+    /*
+    * Build the mailto body.
+    * Each field is labelled clearly so you receive a clean,
+    * readable email. encodeURIComponent handles special characters.
+    */
+    var subject = 'New Enquiry from JAK Life — ' + name;
 
-// Delegated click on options
-listEl.addEventListener('mousedown', function(e) {
-  const opt = e.target.closest('.country-option[data-code]');
-  if (!opt) return;
-  e.preventDefault();
-  const c = COUNTRIES.find(x => x.code === opt.dataset.code);
-  if (c) pick(c);
-});
+    var body = [
+        'Hello,',
+        '',
+        'You have received a new enquiry through the JAK Life website.',
+        '',
+        '────────────────────────',
+        'CONTACT DETAILS',
+        '────────────────────────',
+        'Name     : ' + name,
+        'Email    : ' + email,
+        'Phone    : ' + phone,
+        'Address  : ' + address,
+        '',
+        '────────────────────────',
+        'MESSAGE',
+        '────────────────────────',
+        comments,
+        '',
+        '────────────────────────',
+        'Reply directly to this email to respond to ' + name + '.',
+    ].join('\n');
 
-// Close on outside click
-document.addEventListener('click', function(e) {
-  if (!countryBtn.contains(e.target) && !dropdown.contains(e.target)) close();
-});
+    /*
+    * Build the mailto link.
+    * - to:      your email — receives the message
+    * - cc:      visitor's email — they get a copy as confirmation
+    * - subject: pre-filled with visitor's name
+    * - body:    all form data, clearly labelled
+    */
+    var mailto = 'mailto:' + YOUR_EMAIL
+        + '?cc='      + encodeURIComponent(email)
+        + '&subject=' + encodeURIComponent(subject)
+        + '&body='    + encodeURIComponent(body);
 
-// Escape key
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape' && isOpen()) { close(); countryBtn.focus(); }
-});
+    /* Open the visitor's email client */
+    var link = document.createElement('a');
+    link.href = mailto;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 
-// Initial render
-renderList('');
-
-/* ════════════════════════════════════════════════════════
-   VALIDATION
-════════════════════════════════════════════════════════ */
-const FIELDS = [
-  { id:'name',    errId:'name-err',    wrapId:null,         validate: v => v.trim().length >= 2 },
-  { id:'email',   errId:'email-err',   wrapId:null,         validate: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) },
-  { id:'phone',   errId:'phone-err',   wrapId:'phone-wrap', validate: v => v.replace(/\D/g,'').length >= 6 },
-  { id:'address', errId:'address-err', wrapId:null,         validate: v => v.trim().length >= 5 },
-];
-
-function validateField(def) {
-  const el  = document.getElementById(def.id);
-  const err = document.getElementById(def.errId);
-  const wrap = def.wrapId ? document.getElementById(def.wrapId) : null;
-  const ok  = def.validate(el.value);
-  (wrap || el).classList.toggle('err', !ok);
-  err.classList.toggle('show', !ok);
-  return ok;
-}
-
-FIELDS.forEach(function(def) {
-  const el = document.getElementById(def.id);
-  el.addEventListener('blur',  function()  { validateField(def); });
-  el.addEventListener('input', function()  {
-    if ((def.wrapId ? document.getElementById(def.wrapId) : el).classList.contains('err'))
-      validateField(def);
-  });
-});
-
-/* ════════════════════════════════════════════════════════
-   GOOGLE FORMS SUBMISSION
-   ────────────────────────────────────────────────────────
-   Submissions POST silently into a hidden iframe.
-   Google stores every response in your linked Sheets and
-   you can enable email alerts from:
-   Google Forms → ⋮ menu → "Get email notifications for
-   new responses".
-
-   The entry IDs below were mapped from your form:
-   https://docs.google.com/forms/d/e/
-   1FAIpQLSf8HYxl6StJEhdTsyd7Jl4FqKq-0uhYWo0jK3O634nEqNZp_g/viewform
-
-   ⚠️  IMPORTANT — before going live:
-   Open your Google Form → click the ⋮ menu (top-right)
-   → "Get email notifications for new responses" → toggle ON
-   That's the only setup needed to receive responses by email.
-════════════════════════════════════════════════════════ */
-const GF_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSf8HYxl6StJEhdTsyd7Jl4FqKq-0uhYWo0jK3O634nEqNZp_g/formResponse';
-
-/* Entry IDs — these map to the 5 questions in your form
-   in order: Name, Email, Address, Phone number, Comments */
-const ENTRY = {
-  name:     'entry.1954005524',
-  email:    'entry.904411606',
-  address:  'entry.1232859710',
-  phone:    'entry.738066992',
-  comments: 'entry.1640336643',
-};
-
-const form      = document.getElementById('contact-form');
-const submitBtn = document.getElementById('submit-btn');
-const okBanner  = document.getElementById('success-banner');
-const errBanner = document.getElementById('error-banner');
-const sink      = document.querySelector('iframe[name="gf-sink"]');
-
-form.addEventListener('submit', function(e) {
-  e.preventDefault();
-
-  // Validate
-  let valid = true;
-  FIELDS.forEach(function(def) { if (!validateField(def)) valid = false; });
-  if (!valid) {
-    const first = form.querySelector('.err');
-    if (first) first.scrollIntoView({ behavior:'smooth', block:'center' });
-    return;
-  }
-
-  okBanner.classList.remove('show');
-  errBanner.classList.remove('show');
-  submitBtn.classList.add('loading');
-
-  // Build a temporary hidden form and fire it into the sink iframe
-  const gf = document.createElement('form');
-  gf.method  = 'POST';
-  gf.action  = GF_URL;
-  gf.target  = 'gf-sink';
-  gf.style.display = 'none';
-
-  const values = {
-    [ENTRY.name]:     document.getElementById('name').value.trim(),
-    [ENTRY.email]:    document.getElementById('email').value.trim(),
-    [ENTRY.address]:  document.getElementById('address').value.trim(),
-    [ENTRY.phone]:    current.dial + ' ' + document.getElementById('phone').value.trim(),
-    [ENTRY.comments]: document.getElementById('comments').value.trim(),
-  };
-
-  Object.keys(values).forEach(function(k) {
-    const i = document.createElement('input');
-    i.type = 'hidden'; i.name = k; i.value = values[k];
-    gf.appendChild(i);
-  });
-
-  document.body.appendChild(gf);
-
-  // Timeout safety — 8 s
-  const timer = setTimeout(function() {
-    if (!submitBtn.classList.contains('loading')) return;
-    submitBtn.classList.remove('loading');
-    errBanner.classList.add('show');
-    errBanner.scrollIntoView({ behavior:'smooth', block:'nearest' });
-    if (document.body.contains(gf)) document.body.removeChild(gf);
-  }, 8000);
-
-  sink.onload = function() {
-    clearTimeout(timer);
-    sink.onload = null;
-    submitBtn.classList.remove('loading');
-    okBanner.classList.add('show');
+    /* Show success state */
+    successBan.classList.add('show');
     form.reset();
-    // Reset country picker to India
-    current = COUNTRIES[0];
-    selFlag.textContent = COUNTRIES[0].flag;
-    selDial.textContent = COUNTRIES[0].dial;
-    okBanner.scrollIntoView({ behavior:'smooth', block:'nearest' });
-    if (document.body.contains(gf)) document.body.removeChild(gf);
-  };
-
-  gf.submit();
-});
+    successBan.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
 </script>
 </body>
 </html>
