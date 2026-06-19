@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Business & Entrepreneurship — JAK Life</title>
+<meta name="description" content="For founders building or scaling something of their own, but missing the structure to make it sustainable." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="icon" type="image/svg+xml" href="assets/JAKLifeLOGO.svg" />
+<style>
+
+/* ── RESET & TOKENS ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:         #0B1F3A;
+  --navy-light:   #1e3a5f;
+  --blue:         #3A86FF;
+  --teal:         #06D6A0;
+  --gold:         #F4A261;
+  --cream:        #FFF8EE;
+  --cream-dark:   #F5EDD9;
+  --muted:        #5a6a7e;
+  --border:       rgba(11,31,58,0.10);
+  --accent:       var(--blue);
+
+  --max-w: 1360px;
+  --pad-x: clamp(24px, 5vw, 96px);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--cream);
+  color: var(--navy);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ════════════════════════════════════════
+  PAGE HEADER
+════════════════════════════════════════ */
+.svc-header {
+  padding: clamp(64px, 9vw, 112px) var(--pad-x) clamp(52px, 7vw, 88px);
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+}
+
+.svc-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+}
+
+.svc-breadcrumb a {
+  color: var(--navy);
+  opacity: 0.5;
+  text-decoration: none;
+  transition: opacity 0.18s;
+}
+.svc-breadcrumb a:hover { opacity: 0.9; }
+.svc-breadcrumb span.sep { color: var(--navy); opacity: 0.3; }
+.svc-breadcrumb span.cur { color: var(--accent); opacity: 1; }
+
+.svc-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(46px, 5.2vw, 78px);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+  max-width: 820px;
+}
+
+.svc-headline em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--accent);
+}
+
+.svc-tagline {
+  margin-top: 28px;
+  font-size: clamp(15px, 1.4vw, 17px);
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 580px;
+}
+
+/* ════════════════════════════════════════
+  INTRO GRID — icon card + story
+════════════════════════════════════════ */
+.svc-intro {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: clamp(40px, 6vw, 96px);
+  align-items: start;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: clamp(56px, 7vw, 96px) var(--pad-x);
+  width: 100%;
+}
+
+.svc-icon-col { position: sticky; top: 108px; }
+
+.svc-icon-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--navy);
+  aspect-ratio: 4 / 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.svc-icon-card::before {
+  content: "";
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.svc-icon-card::after {
+  content: "";
+  position: absolute;
+  bottom: -6px; left: -6px;
+  width: 72px; height: 72px;
+  border-left: 3px solid var(--accent);
+  border-bottom: 3px solid var(--accent);
+  pointer-events: none;
+}
+
+.svc-icon-num {
+  position: absolute;
+  top: 28px; left: 28px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: #fff;
+  opacity: 0.4;
+  text-transform: uppercase;
+}
+
+.svc-icon-wrap {
+  width: 120px; height: 120px;
+  border-radius: 24px;
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  display: flex; align-items: center; justify-content: center;
+}
+.svc-icon-wrap svg { width: 56px; height: 56px; }
+
+.svc-icon-caption {
+  margin-top: 18px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--navy);
+  opacity: 0.45;
+}
+
+.svc-story h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 2.8vw, 40px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--navy);
+  margin-bottom: 28px;
+  letter-spacing: -0.01em;
+}
+.svc-story h2 span { color: var(--accent); font-weight: 400; }
+
+.svc-story p {
+  font-size: 15px;
+  line-height: 1.82;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+.svc-story p:last-of-type { margin-bottom: 0; }
+
+.svc-pullquote {
+  margin: 36px 0;
+  padding: 24px 28px;
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+  border-radius: 0 6px 6px 0;
+}
+.svc-pullquote p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(18px, 1.8vw, 22px);
+  font-weight: 600;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--navy);
+  margin-bottom: 0;
+  opacity: 0.85;
+}
+
+/* ════════════════════════════════════════
+  WHO THIS IS FOR — light strip
+════════════════════════════════════════ */
+.svc-who-section {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--pad-x) clamp(56px, 7vw, 96px);
+  width: 100%;
+}
+.svc-who-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: clamp(28px, 3vw, 40px);
+  box-shadow: 0 4px 16px rgba(11,31,58,0.05);
+}
+.svc-who-head {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--navy);
+  opacity: 0.45;
+  margin-bottom: 22px;
+}
+.svc-who-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+}
+.svc-who-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--navy);
+  opacity: 0.85;
+}
+.svc-who-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+/* ════════════════════════════════════════
+  PILLARS — dark band
+════════════════════════════════════════ */
+.svc-pillars-section {
+  background: var(--navy);
+  padding: clamp(64px, 8vw, 112px) var(--pad-x);
+}
+.svc-pillars-inner { max-width: var(--max-w); margin: 0 auto; }
+
+.svc-pillars-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 48px;
+}
+.svc-pillars-header-line { width: 32px; height: 2px; background: var(--accent); flex-shrink: 0; }
+.svc-pillars-header-text {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  color: #fff;
+  opacity: 0.4;
+  text-transform: uppercase;
+}
+
+.svc-pillars-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 3vw, 48px);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 56px;
+  max-width: 680px;
+  letter-spacing: -0.01em;
+}
+.svc-pillars-heading em { font-style: italic; font-weight: 300; color: var(--accent); }
+
+.svc-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.svc-pillar-item { background: rgba(255,255,255,0.03); padding: 36px 32px; transition: background 0.2s; }
+.svc-pillar-item:hover { background: rgba(255,255,255,0.07); }
+
+.svc-pillar-label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.17em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.svc-pillar-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(19px, 1.7vw, 23px);
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.25;
+  margin-bottom: 12px;
+}
+.svc-pillar-desc { font-size: 14px; line-height: 1.72; color: #fff; opacity: 0.55; }
+
+/* ════════════════════════════════════════
+  WHAT'S INCLUDED
+════════════════════════════════════════ */
+.svc-included-section {
+  padding: clamp(64px, 8vw, 112px) var(--pad-x);
+  max-width: var(--max-w);
+  margin: 0 auto;
+  width: 100%;
+}
+.svc-included-header { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; margin-bottom: 44px; }
+
+.svc-included-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.svc-included-eyebrow-line { width: 28px; height: 2px; background: var(--accent); flex-shrink: 0; }
+.svc-included-eyebrow-text {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.22em;
+  color: var(--navy); opacity: 0.5; text-transform: uppercase;
+}
+.svc-included-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 3vw, 48px);
+  font-weight: 700; color: var(--navy); line-height: 1.1; letter-spacing: -0.01em;
+}
+.svc-included-heading span { color: var(--accent); font-weight: 400; }
+.svc-included-intro { font-size: 15px; line-height: 1.75; color: var(--muted); align-self: end; }
+
+.svc-included-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.svc-included-item {
+  background: #fff;
+  padding: 26px 26px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  transition: background 0.18s;
+}
+.svc-included-item:hover { background: color-mix(in srgb, var(--accent) 4%, transparent); }
+.svc-included-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex-shrink: 0; margin-top: 6px; }
+.svc-included-text { font-size: 13.5px; font-weight: 500; color: var(--navy); line-height: 1.55; opacity: 0.85; }
+
+/* ════════════════════════════════════════
+  RELATED SERVICES
+════════════════════════════════════════ */
+.svc-related-section {
+  background: var(--cream-dark);
+  border-top: 1px solid var(--border);
+  padding: clamp(48px, 6vw, 72px) var(--pad-x);
+}
+.svc-related-inner { max-width: var(--max-w); margin: 0 auto; }
+.svc-related-head {
+  font-size: 11px; font-weight: 800; letter-spacing: 0.20em;
+  text-transform: uppercase; color: var(--navy); opacity: 0.45; margin-bottom: 22px;
+}
+.svc-related-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.svc-related-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 11px 20px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--navy);
+  text-decoration: none;
+  transition: border-color 0.18s, transform 0.15s;
+}
+.svc-related-chip:hover { border-color: var(--navy); transform: translateY(-2px); }
+
+/* ════════════════════════════════════════
+  CTA BAND
+════════════════════════════════════════ */
+.cta-band {
+  background: var(--cream-dark);
+  border-top: 1px solid var(--border);
+  padding: clamp(52px, 7vw, 88px) var(--pad-x);
+  text-align: center;
+}
+.cta-band-inner { max-width: 640px; margin: 0 auto; }
+.cta-band h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 3.2vw, 48px);
+  font-weight: 700; color: var(--navy); line-height: 1.15; letter-spacing: -0.01em; margin-bottom: 16px;
+}
+.cta-band h2 em { font-style: italic; font-weight: 300; color: var(--accent); }
+.cta-band p { font-size: 15px; line-height: 1.72; color: var(--muted); margin-bottom: 36px; }
+
+.cta-actions { display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap; }
+
+.btn-primary {
+  background: var(--navy);
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  padding: 16px 28px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.btn-primary:hover { background: var(--navy-light); transform: translateY(-2px); box-shadow: 0 10px 28px rgba(11,31,58,0.22); }
+.btn-primary svg { width: 14px; height: 14px; }
+
+.btn-ghost-navy {
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1.5px solid rgba(11,31,58,0.25);
+  padding-bottom: 2px;
+  transition: gap 0.2s, border-color 0.2s;
+}
+.btn-ghost-navy:hover { gap: 18px; border-color: var(--navy); }
+.btn-ghost-navy svg { width: 13px; height: 13px; }
+
+/* ════════════════════════════════════════
+  ANIMATIONS
+════════════════════════════════════════ */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.anim-1 { animation: fadeUp 0.65s ease both 0.08s; }
+.anim-2 { animation: fadeUp 0.65s ease both 0.22s; }
+.anim-3 { animation: fadeUp 0.65s ease both 0.36s; }
+.anim-4 { animation: fadeUp 0.65s ease both 0.50s; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* ════════════════════════════════════════
+  RESPONSIVE
+════════════════════════════════════════ */
+@media (max-width: 900px) {
+  :root { --pad-x: 32px; }
+  .svc-intro { grid-template-columns: 1fr; gap: 40px; }
+  .svc-icon-col { position: static; }
+  .svc-icon-card { aspect-ratio: 16 / 9; max-height: 320px; }
+  .svc-pillars { grid-template-columns: 1fr; }
+  .svc-included-header { grid-template-columns: 1fr; gap: 20px; }
+  .svc-included-grid { grid-template-columns: 1fr; }
+  .svc-who-list { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  :root { --pad-x: 20px; }
+  .cta-actions { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAVIGATION injected by components.js ═══ -->
+
+<!-- ════════════════════════════════════════
+  PAGE HEADER
+════════════════════════════════════════ -->
+<header class="svc-header">
+  <div class="svc-breadcrumb anim-1">
+    <a href="services.html">Services</a>
+    <span class="sep">/</span>
+    <span class="cur">Business & Entrepreneurship</span>
+  </div>
+  <h1 class="svc-headline anim-2">Build Foundations<br>That <em>Hold.</em></h1>
+  <p class="svc-tagline anim-3">For founders building or scaling something of their own, but missing the structure to make it sustainable.</p>
+</header>
+
+<!-- ════════════════════════════════════════
+  INTRO — icon card + story
+════════════════════════════════════════ -->
+<section class="svc-intro">
+
+  <div class="svc-icon-col anim-1">
+    <div class="svc-icon-card">
+      <p class="svc-icon-num">05</p>
+      <div class="svc-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#3A86FF" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="9" height="18" rx="1"/>
+            <rect x="14" y="9" width="7" height="12" rx="1"/>
+            <line x1="6" y1="7" x2="9" y2="7"/>
+            <line x1="6" y1="11" x2="9" y2="11"/>
+            <line x1="6" y1="15" x2="9" y2="15"/>
+        </svg>
+      </div>
+    </div>
+    <p class="svc-icon-caption">Business & Entrepreneurship &nbsp;/&nbsp; JAK Life</p>
+  </div>
+
+  <div class="svc-story anim-2">
+    <h2>Build Foundations<br>That <span>Hold.</span></h2>
+    <p>Most businesses don&rsquo;t fail from a bad idea. They strain under the weight of decisions made without structure &mdash; legal exposure left unaddressed, financial foundations built late, growth that outpaces the systems meant to support it.</p>
+    <div class="svc-pullquote"><p>The businesses that last aren&rsquo;t the ones that grow fastest. They're the ones built on a foundation that can carry the weight.</p></div>
+    <p>This work puts the legal, financial, and strategic foundations in place before the cracks show, and stays alongside you as you grow &mdash; from early structuring decisions through to succession or exit planning.</p>
+  </div>
+
+</section>
+
+<!-- ════════════════════════════════════════
+  WHO THIS IS FOR
+════════════════════════════════════════ -->
+<section class="svc-who-section anim-1">
+  <div class="svc-who-card">
+    <p class="svc-who-head">Right For You If</p>
+    <ul class="svc-who-list">
+      <li><span class="svc-who-dot"></span>You're building a business and want the legal and financial basics right.</li>
+      <li><span class="svc-who-dot"></span>You're scaling and feel the structure straining to keep up.</li>
+      <li><span class="svc-who-dot"></span>You're thinking about succession, partnership, or an eventual exit.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+  PILLARS — dark band
+════════════════════════════════════════ -->
+<section class="svc-pillars-section">
+  <div class="svc-pillars-inner">
+    <div class="svc-pillars-header">
+      <div class="svc-pillars-header-line"></div>
+      <p class="svc-pillars-header-text">How I Help</p>
+    </div>
+    <h2 class="svc-pillars-heading">A focused approach,<br>built around <em>results.</em></h2>
+    <div class="svc-pillars">
+      <div class="svc-pillar-item">
+        <p class="svc-pillar-label">Structure</p>
+        <p class="svc-pillar-title">Build On Solid Ground</p>
+        <p class="svc-pillar-desc">Get the legal and financial foundations right early, so growth doesn't expose gaps later.</p>
+      </div>
+      <div class="svc-pillar-item">
+        <p class="svc-pillar-label">Growth</p>
+        <p class="svc-pillar-title">Decide With Confidence</p>
+        <p class="svc-pillar-desc">Use clear decision frameworks for hiring, spending, and expansion instead of guesswork.</p>
+      </div>
+      <div class="svc-pillar-item">
+        <p class="svc-pillar-label">Continuity</p>
+        <p class="svc-pillar-title">Plan Beyond the Founder</p>
+        <p class="svc-pillar-desc">Succession and exit planning so the business can outlast any single person, including you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+  WHAT'S INCLUDED
+════════════════════════════════════════ -->
+<section class="svc-included-section">
+  <div class="svc-included-header">
+    <div>
+      <div class="svc-included-eyebrow">
+        <div class="svc-included-eyebrow-line"></div>
+        <p class="svc-included-eyebrow-text">What's Included</p>
+      </div>
+      <h2 class="svc-included-heading">Inside this<br><span>engagement.</span></h2>
+    </div>
+    <p class="svc-included-intro">Every engagement is shaped around your situation &mdash; this is the core of what's included as we work together.</p>
+  </div>
+  <div class="svc-included-grid">
+    <div class="svc-included-item">
+      <div class="svc-included-dot"></div>
+      <p class="svc-included-text">Business strategy &amp; structuring</p>
+    </div>
+    <div class="svc-included-item">
+      <div class="svc-included-dot"></div>
+      <p class="svc-included-text">Legal &amp; financial foundations for founders</p>
+    </div>
+    <div class="svc-included-item">
+      <div class="svc-included-dot"></div>
+      <p class="svc-included-text">Growth planning &amp; decision frameworks</p>
+    </div>
+    <div class="svc-included-item">
+      <div class="svc-included-dot"></div>
+      <p class="svc-included-text">Risk management for entrepreneurs</p>
+    </div>
+    <div class="svc-included-item">
+      <div class="svc-included-dot"></div>
+      <p class="svc-included-text">Succession &amp; exit planning</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+  RELATED SERVICES
+════════════════════════════════════════ -->
+<section class="svc-related-section">
+  <div class="svc-related-inner">
+    <p class="svc-related-head">Explore Other Services</p>
+    <div class="svc-related-grid">
+      <a class="svc-related-chip" href="life-personal-growth.html">Life & Personal Growth</a>
+      <a class="svc-related-chip" href="career-professional-growth.html">Career & Professional Growth</a>
+      <a class="svc-related-chip" href="legal-guidance.html">Legal Guidance</a>
+      <a class="svc-related-chip" href="financial-discipline.html">Financial Discipline</a>
+      <a class="svc-related-chip" href="ngo-social-impact.html">NGO & Social Impact</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+  CTA
+════════════════════════════════════════ -->
+<div class="cta-band">
+  <div class="cta-band-inner">
+    <h2>Ready to take<br>the next <em>step?</em></h2>
+    <p>One honest conversation is where every meaningful change begins. Let's start yours.</p>
+    <div class="cta-actions">
+      <a class="btn-primary" href="book.html">
+        Book a consultation
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="2" y1="7" x2="12" y2="7"/><polyline points="8,3 12,7 8,11"/>
+        </svg>
+      </a>
+      <a class="btn-ghost-navy" href="services.html">
+        View all services
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="2" y1="7" x2="12" y2="7"/><polyline points="8,3 12,7 8,11"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NAV + FOOTER injected by components.js ═══ -->
+<script src="./components.js"></script>
+</body>
+</html>
