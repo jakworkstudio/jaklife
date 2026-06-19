@@ -72,10 +72,25 @@
   var TOOL     = base + 'tools/interest-calculator.html';
   var CONTACT  = base + 'contact.html';
 
+  /* ── 3b. Services sub-sections (drives the Services dropdown) ─────
+     Each service now lives on its own page. `file` is the page,
+     `id` is kept as the matching section id on services.html (used
+     only for active-state matching, not for linking anymore).
+  ─────────────────────────────────────────────────────────────────── */
+  var SERVICE_AREAS = [
+    { id: 'life-personal-growth',        file: 'life-personal-growth.html',        label: 'Life &amp; Personal Growth' },
+    { id: 'career-professional-growth',  file: 'career-professional-growth.html',  label: 'Career &amp; Professional Growth' },
+    { id: 'legal-guidance',              file: 'legal-guidance.html',              label: 'Legal Guidance' },
+    { id: 'financial-discipline',        file: 'financial-discipline.html',        label: 'Financial Discipline' },
+    { id: 'business-entrepreneurship',   file: 'business-entrepreneurship.html',   label: 'Business &amp; Entrepreneurship' },
+    { id: 'ngo-social-impact',           file: 'ngo-social-impact.html',           label: 'NGO &amp; Social Impact' }
+  ];
+
   /* ── 4. Detect current page ──────────────────────────────────────*/
   var isBook     = pagePathname.indexOf('book.html') !== -1;
   var isTool     = pagePathname.indexOf('interest-calculator') !== -1;
-  var isServices = pagePathname.indexOf('services.html') !== -1;
+  var isServiceDetail = SERVICE_AREAS.some(function (a) { return pagePathname.indexOf('/' + a.file) !== -1 || pagePathname === a.file; });
+  var isServices = pagePathname.indexOf('services.html') !== -1 || isServiceDetail;
   var isSocial   = pagePathname.indexOf('social.html') !== -1 || pagePathname.indexOf('one-more-friend') !== -1;
   var isHome     = !isBook && !isTool && !isServices && !isSocial;
 
@@ -94,17 +109,40 @@
     ? '<a class="jak-back" href="' + HOME + '">' + SVG_L + ' Back to home</a>'
     : '<a class="jak-cta" href="' + BOOK + '">Book a consultation ' + SVG_R + '</a>';
 
+  /* ── 7b. Services dropdown menu + drawer sub-items (desktop + mobile) ── */
+  var CHEVRON = '<svg class="jak-chevron" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,1 5,5 9,1"/></svg>';
+
+  var servicesMenuItems = '';
+  var servicesDrawerItems = '';
+  for (var s = 0; s < SERVICE_AREAS.length; s++) {
+    var area = SERVICE_AREAS[s];
+    var areaHref = base + area.file;
+    var areaActive = (pagePathname.indexOf('/' + area.file) !== -1 || pagePathname === area.file) ? ' jak-dropdown-item--active' : '';
+    servicesMenuItems += '<a href="' + areaHref + '" class="jak-dropdown-item' + areaActive + '" role="menuitem">' + area.label + '</a>';
+    servicesDrawerItems += '<li><a class="jak-drawer-sub" href="' + areaHref + '">' + area.label + '</a></li>';
+  }
+
   /* ── 8. NAV HTML ─────────────────────────────────────────────────*/
   var NAV = ''
     + '<nav id="jak-nav">'
     +   '<a class="jak-logo" href="' + HOME + '"><img src="' + LOGO + '" alt="JAK Life"/></a>'
     +   '<ul class="jak-links">'
     +     '<li><a href="' + ABOUT + '"' + activeClass('about') + '>About</a></li>'
-    +     '<li><a href="' + SERVICES + '"' + activeClass('services') + '>Services</a></li>'
+    +     '<li class="jak-dropdown">'
+    +       '<a href="' + SERVICES + '" class="jak-dropdown-trigger jak-dropdown-trigger--link' + (isServices ? ' active' : '') + '" aria-expanded="false" aria-haspopup="true">'
+    +         'Services'
+    +         CHEVRON
+    +       '</a>'
+    +       '<div class="jak-dropdown-menu jak-dropdown-menu--wide" role="menu">'
+    +         '<a href="' + SERVICES + '" class="jak-dropdown-item jak-dropdown-item--all" role="menuitem">All Services</a>'
+    +         '<div class="jak-dropdown-divider"></div>'
+    +         servicesMenuItems
+    +       '</div>'
+    +     '</li>'
     +     '<li class="jak-dropdown">'
     +       '<button class="jak-dropdown-trigger' + (isSocial ? ' active' : '') + '" aria-expanded="false" aria-haspopup="true">'
     +         'Social Initiative'
-    +         '<svg class="jak-chevron" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1,1 5,5 9,1"/></svg>'
+    +         CHEVRON
     +       '</button>'
     +       '<div class="jak-dropdown-menu" role="menu">'
     +         '<a href="' + OMF + '" class="jak-dropdown-item' + (pagePathname.indexOf('one-more-friend') !== -1 ? ' jak-dropdown-item--active' : '') + '" role="menuitem">One More Friend</a>'
@@ -123,6 +161,7 @@
     +     '<ul>'
     +       '<li><a href="' + ABOUT + '">About</a></li>'
     +       '<li><a href="' + SERVICES + '">Services</a></li>'
+    +       servicesDrawerItems
     +       '<li><a href="' + OMF + '"' + activeClass('one-more-friend') + '>One More Friend</a></li>'
     +       '<li><a href="' + TOOL + '">Tools</a></li>'
     +       '<li><a href="' + HOME + '#resources">Resources</a></li>'
@@ -209,6 +248,8 @@
 +   'border-bottom:1px solid var(--border);transition:opacity .15s;'
 + '}'
 + '.jak-drawer ul a:hover{opacity:1;}'
++ '.jak-drawer ul a.jak-drawer-sub{padding-left:18px;font-size:11px;letter-spacing:.10em;opacity:.5;}'
++ '.jak-drawer ul a.jak-drawer-sub:hover{opacity:.85;}'
 + '.jak-drawer ul li:last-child a{border-bottom:none;}'
 + '.jak-drawer-cta{'
 +   'display:inline-flex;align-items:center;gap:10px;margin-top:18px;'
@@ -220,7 +261,7 @@
 /* dropdown */
 + '.jak-dropdown{position:relative;list-style:none;}'
 + '.jak-dropdown-trigger{'
-+   'background:none;border:none;cursor:pointer;padding:0;'
++   'background:none;border:none;cursor:pointer;padding:0;text-decoration:none;'
 +   'display:flex;align-items:center;gap:5px;'
 +   'font-family:inherit;font-size:12px;font-weight:700;letter-spacing:0.16em;'
 +   'color:var(--navy);text-transform:uppercase;opacity:.7;'
@@ -245,6 +286,8 @@
 + '.jak-dropdown.open .jak-dropdown-menu{'
 +   'opacity:1;pointer-events:all;transform:translateX(-50%) translateY(0);'
 + '}'
++ '.jak-dropdown-menu--wide{min-width:252px;}'
++ '.jak-dropdown-menu--wide .jak-dropdown-item{white-space:normal;line-height:1.4;}'
 + '.jak-dropdown-item{'
 +   'display:block;padding:10px 14px;border-radius:6px;'
 +   'text-decoration:none;font-size:12px;font-weight:700;letter-spacing:.14em;'
@@ -253,6 +296,8 @@
 + '}'
 + '.jak-dropdown-item:hover{background:rgba(11,31,58,.04);opacity:1;}'
 + '.jak-dropdown-item--active{opacity:1;color:var(--teal);}'
++ '.jak-dropdown-item--all{opacity:.95;color:var(--blue);}'
++ '.jak-dropdown-divider{height:1px;background:var(--border);margin:6px 6px;}'
 /* footer */
 + '#jak-footer{margin-top:auto;}'
 + '.jak-foot{background:var(--navy);padding:22px var(--pad-x);display:flex;align-items:center;justify-content:space-between;}'
@@ -316,71 +361,95 @@
     }
   }
 
-  /* ── 14b. Dropdown — click toggle + hover with 2s linger ─────────*/
-  var dropdownEl  = document.querySelector('.jak-dropdown');
-  var triggerBtn  = dropdownEl && dropdownEl.querySelector('.jak-dropdown-trigger');
-  var hoverTimer  = null;
+  /* ── 14b. Dropdowns — click toggle + hover with 2s linger ─────────
+     Supports MULTIPLE dropdowns in the nav (Services, Social Initiative, …).
+     Opening one closes any other that's open.
+  ─────────────────────────────────────────────────────────────────── */
+  var dropdownEls    = document.querySelectorAll('.jak-dropdown');
+  var dropdownTimers = (typeof WeakMap !== 'undefined') ? new WeakMap() : null;
+  var fallbackTimers = []; // used only if WeakMap unsupported
 
-  function openDropdown() {
-    if (!dropdownEl) return;
-    clearTimeout(hoverTimer);
-    dropdownEl.classList.add('open');
-    if (triggerBtn) triggerBtn.setAttribute('aria-expanded', 'true');
+  function getTimer(dd) {
+    return dropdownTimers ? dropdownTimers.get(dd) : fallbackTimers[Array.prototype.indexOf.call(dropdownEls, dd)];
+  }
+  function setTimer(dd, t) {
+    if (dropdownTimers) { dropdownTimers.set(dd, t); }
+    else { fallbackTimers[Array.prototype.indexOf.call(dropdownEls, dd)] = t; }
   }
 
-  function closeDropdown() {
-    if (!dropdownEl) return;
-    dropdownEl.classList.remove('open');
-    if (triggerBtn) triggerBtn.setAttribute('aria-expanded', 'false');
+  function closeDropdownEl(dd) {
+    dd.classList.remove('open');
+    var trig = dd.querySelector('.jak-dropdown-trigger');
+    if (trig) trig.setAttribute('aria-expanded', 'false');
   }
 
-  function scheduleClose() {
-    hoverTimer = setTimeout(closeDropdown, 2000);
-  }
-
-  if (dropdownEl && triggerBtn) {
-    /* Click toggles open/close */
-    triggerBtn.addEventListener('click', function (e) {
-      e.stopPropagation();
-      clearTimeout(hoverTimer);
-      var isOpen = dropdownEl.classList.contains('open');
-      if (isOpen) { closeDropdown(); } else { openDropdown(); }
-    });
-
-    /* Hover opens immediately; leaving starts the 2s countdown */
-    dropdownEl.addEventListener('mouseenter', function () {
-      openDropdown();
-    });
-    dropdownEl.addEventListener('mouseleave', function () {
-      scheduleClose();
-    });
-
-    /* Re-entering before 2s cancels the close */
-    dropdownEl.addEventListener('mouseenter', function () {
-      clearTimeout(hoverTimer);
-    });
-
-    /* Clicking a menu item closes immediately */
-    var menuItems = dropdownEl.querySelectorAll('.jak-dropdown-item');
-    for (var m = 0; m < menuItems.length; m++) {
-      menuItems[m].addEventListener('click', function () {
-        closeDropdown();
-      });
+  function closeAllDropdowns(except) {
+    for (var x = 0; x < dropdownEls.length; x++) {
+      if (dropdownEls[x] !== except) closeDropdownEl(dropdownEls[x]);
     }
-
-    /* Clicking outside closes immediately */
-    document.addEventListener('click', function (e) {
-      if (!dropdownEl.contains(e.target)) {
-        clearTimeout(hoverTimer);
-        closeDropdown();
-      }
-    });
-
-    /* Escape key closes */
-    document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape') { clearTimeout(hoverTimer); closeDropdown(); }
-    });
   }
+
+  for (var p = 0; p < dropdownEls.length; p++) {
+    (function (dropdownEl) {
+      var triggerBtn = dropdownEl.querySelector('.jak-dropdown-trigger');
+      if (!triggerBtn) return;
+
+      function openDropdown() {
+        clearTimeout(getTimer(dropdownEl));
+        closeAllDropdowns(dropdownEl);
+        dropdownEl.classList.add('open');
+        triggerBtn.setAttribute('aria-expanded', 'true');
+      }
+
+      function closeDropdown() {
+        clearTimeout(getTimer(dropdownEl));
+        closeDropdownEl(dropdownEl);
+      }
+
+      function scheduleClose() {
+        setTimer(dropdownEl, setTimeout(closeDropdown, 2000));
+      }
+
+      /* Click toggles open/close (link triggers still navigate on click) */
+      triggerBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        clearTimeout(getTimer(dropdownEl));
+        var isOpen = dropdownEl.classList.contains('open');
+        if (isOpen) { closeDropdown(); } else { openDropdown(); }
+      });
+
+      /* Hover opens immediately; leaving starts the 2s countdown */
+      dropdownEl.addEventListener('mouseenter', function () {
+        clearTimeout(getTimer(dropdownEl));
+        openDropdown();
+      });
+      dropdownEl.addEventListener('mouseleave', function () {
+        scheduleClose();
+      });
+
+      /* Clicking a menu item closes immediately and lets the link navigate */
+      var menuItems = dropdownEl.querySelectorAll('.jak-dropdown-item');
+      for (var m = 0; m < menuItems.length; m++) {
+        menuItems[m].addEventListener('click', function () {
+          closeDropdown();
+        });
+      }
+    })(dropdownEls[p]);
+  }
+
+  /* Clicking outside any dropdown closes them all */
+  document.addEventListener('click', function (e) {
+    var insideAny = false;
+    for (var y = 0; y < dropdownEls.length; y++) {
+      if (dropdownEls[y].contains(e.target)) { insideAny = true; break; }
+    }
+    if (!insideAny) closeAllDropdowns();
+  });
+
+  /* Escape key closes them all */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeAllDropdowns();
+  });
 
   /* ── 15. Anchor smooth-scroll with nav offset ────────────────────
      Handles TWO cases:
